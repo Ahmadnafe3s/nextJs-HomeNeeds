@@ -1,0 +1,32 @@
+/* styles/Home.module.css */
+
+
+.heading {
+    font-size: clamp(50px, 10vw, 85px);
+    letter-spacing: 5px;
+}
+
+.btn {
+    background-color: black;
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    transition: 0.2s;
+    text-decoration: none;
+}
+
+
+
+.btn:hover {
+    background-color: #333;
+}
+
+.btn:active {
+    scale: 0.95;
+}
+
+
+.background{
+    background-color: white;
+    min-height: 100vh;
+}

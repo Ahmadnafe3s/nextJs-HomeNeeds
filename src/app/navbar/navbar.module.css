@@ -1,0 +1,164 @@
+.highlight_logo {
+    color: rgb(6, 121, 0);
+}
+
+
+.header {
+    display: flex;
+    height: 70px;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff !important;
+    padding: 0 15px;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    box-shadow: 6px 0px 20px -3px black;
+}
+
+.navbar_brand {
+    font-size: 25px;
+    margin-top: 20px;
+    font-weight: 600 !important;
+    cursor: pointer;
+}
+
+.nav_links {
+    display: flex;
+    align-items: center;
+    margin-top: 15px;
+    list-style: none;
+}
+
+.nav_links li {
+    text-align: center;
+    margin-right: 10px;
+}
+
+.links {
+    cursor: pointer;
+    padding: 8px 13px;
+    border-radius: 25px;
+    font-weight: 600;
+    text-decoration: none;
+    color: black;
+}
+
+
+
+
+
+
+
+.navActive {
+    background-color: rgba(221, 255, 219, 0.837);
+}
+
+
+#menuToggle {
+    z-index: 100;
+}
+
+.checkbox {
+    display: none;
+}
+
+.toggle {
+    position: relative;
+    width: 40px;
+    cursor: pointer;
+    margin: auto;
+    display: block;
+    height: calc(4px * 3 + 11px * 2);
+}
+
+.bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 4px;
+    border-radius: calc(4px / 2);
+    background: rgb(76, 155, 72);
+    color: inherit;
+    opacity: 1;
+    transition: none 0.35s cubic-bezier(.5, -0.35, .35, 1.5) 0s;
+}
+
+/***** Collapse Animation *****/
+
+.bar_top {
+    bottom: calc(50% + 11px + 4px/ 2);
+    transition-property: bottom, margin, transform;
+    transition-delay: calc(0s + 0.35s), 0s, 0s;
+}
+
+.bar_middle {
+    top: calc(50% - 4px/ 2);
+    transition-property: top, opacity;
+    transition-duration: 0.35s, 0s;
+    transition-delay: calc(0s + 0.35s * 1.3), calc(0s + 0.35s * 1.3);
+}
+
+.bar_bottom {
+    top: calc(50% + 11px + 4px/ 2);
+    transition-property: top, transform;
+    transition-delay: 0s;
+}
+
+.checkbox:checked+.toggle .bar_top {
+    bottom: calc(50% - 11px - 4px);
+    margin-bottom: calc(11px + 4px/ 2);
+    transform: rotate(45deg);
+    transition-delay: calc(0s + 0.35s * .3), calc(0s + 0.35s * 1.3), calc(0s + 0.35s * 1.3);
+}
+
+.checkbox:checked+.toggle .bar_middle {
+    top: calc(50% + 11px);
+    opacity: 0;
+    transition-duration: 0.35s, 0s;
+    transition-delay: 0s, calc(0s + 0.35s);
+}
+
+.checkbox:checked+.toggle .bar_bottom {
+    top: calc(50% - 4px/ 2);
+    transform: rotate(-45deg);
+    transition-delay: calc(0s + 0.35s * 1.3), calc(0s + 0.35s * 1.3);
+}
+
+.hamburger {
+    display: none;
+}
+
+@media screen and (max-width : 769px) {
+    .hamburger {
+        display: block;
+    }
+
+    .navBar {
+        position: fixed;
+        display: grid;
+        place-content: center;
+        height: 100vh;
+        background-color: white;
+        top: 0;
+        z-index: 10;
+        right: -770px;
+        width: 100%;
+        transition: 0.2s;
+        overflow: hidden;
+    }
+
+    .navOpen {
+        right: 0;
+    }
+
+    .nav_links {
+        display: block;
+        margin: 15px 0;
+        padding: 0;
+    }
+
+    .nav_links li {
+        margin-top: 15px;
+    }
+}
