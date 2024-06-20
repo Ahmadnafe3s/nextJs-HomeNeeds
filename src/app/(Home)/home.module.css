@@ -26,7 +26,17 @@
 }
 
 
-.background{
+.background {
     background-color: white;
-    min-height: 100vh;
+    min-height: 90vh;
+}
+
+
+.shopping_btn {
+    padding: 8px 15px;
+    text-decoration: none;
+    color: black;
+    border-radius: 15px;
+    font-weight: 600;
+    background-color: rgba(221, 255, 219, 0.837);
 }

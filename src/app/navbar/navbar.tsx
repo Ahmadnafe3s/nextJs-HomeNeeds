@@ -5,13 +5,18 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { logo_font } from '../../../public/fonts/fonts'
 
+type user = {
+  UID: number,
+  userName: string,
+  email: string
+}
 
 const Navbar = () => {
   // hooks
-  const [isNavOpend, setNavOpen] = useState<boolean>(false)
-  const isChecked = useRef<any>(true)
-  const path = usePathname()
 
+  const [isNavOpend, setNavOpen] = useState<boolean>(false)
+  const isChecked = useRef<any>()
+  const path = usePathname()
 
   const onNavigate = () => {
     setNavOpen(false)
@@ -31,7 +36,7 @@ const Navbar = () => {
     <>
       <header className={`mb-2 ${style.header}`}>
 
-        <p className={`${style.navbar_brand} ${logo_font.className}`} ><span className={style.highlight_logo}>H</span>ome <span className={style.highlight_logo}>N</span>eeds</p>
+        <p className={`${style.navbar_brand}  ${logo_font.className}`} ><span className={style.highlight_logo}>H</span>ome <span className={style.highlight_logo}>N</span>eeds</p>
 
         <div id={style.menuToggle} className={style.hamburger}>
           <input id="checkbox" ref={isChecked} className={style.checkbox} type="checkbox" />

@@ -1,7 +1,8 @@
 
 "use client"
+
 import Image from "next/image"
-import img from "../../../public/images/hero.jpg"
+import hero from "../../../public/images/hero.jpg"
 import { heading_font } from "../../../public/fonts/fonts"
 import style from "./home.module.css"
 import ScrollReveal from 'scrollreveal';
@@ -22,11 +23,8 @@ const HomePage = () => {
     }
 
     useEffect(() => {
-
+        
         if (preventReexicution.current) return
-
-        console.log('hello');
-
 
         ScrollReveal().reveal('.animation', options);
 
@@ -39,14 +37,14 @@ const HomePage = () => {
         <>
             <div className={style.background}>
                 <div className="container">
-                    <div className="row min-vh-100 justify-content-around align-items-center">
+                    <div className="row justify-content-around align-items-center" style={{minHeight : '90vh'}}>
 
                         <div className="col-lg-6">
 
                             {/* Image */}
 
                             <div className="d-flex justify-content-center animation">
-                                <Image src={img} style={{ width: 300, height: 300 }} alt="" />
+                                <Image src={hero} style={{ width: 300, height: 300 }} priority={true} alt="" />
                             </div>
 
                             <section className="text-center">
