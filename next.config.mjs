@@ -1,4 +1,7 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-export default nextConfig;
+const nextConfig = {
+    target: 'server', // Set to 'server' for server-side rendering (SSR)
+  };
+  
+  export default nextConfig;
+  

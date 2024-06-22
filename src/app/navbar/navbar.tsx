@@ -1,22 +1,37 @@
 "use client"
-import { useRef, useState } from 'react'
+import { use, useEffect, useRef, useState } from 'react'
 import style from './navbar.module.css'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname} from 'next/navigation'
 import { logo_font } from '../../../public/fonts/fonts'
+import { useAppSelector, useAppDispatch } from '@/Store/hooks/hooks'
+import React from 'react'
+import { removeUser } from '@/Store/Slice/userSlice'
+import { useRouter } from 'next/navigation'
 
-type user = {
+type userType = {
   UID: number,
   userName: string,
   email: string
 }
 
 const Navbar = () => {
-  // hooks
 
+  // hooks
   const [isNavOpend, setNavOpen] = useState<boolean>(false)
+  const [user, setUser] = useState<userType | null>(null)
+
   const isChecked = useRef<any>()
   const path = usePathname()
+  const Dispatch = useAppDispatch()
+  const router = useRouter()
+
+  const userData = useAppSelector((state) => state.user).user // will call each re-render . hooks cant call in another hooks or any functions body except root function.
+
+  useEffect(() => {
+    setUser(userData) // should setUser data once while loading comp and while state changing of dependeble var.
+  }, [userData])      // done this to migrate hydration error
+
 
   const onNavigate = () => {
     setNavOpen(false)
@@ -24,7 +39,10 @@ const Navbar = () => {
   }
 
 
-  const onLogout = () => { }
+  const onLogout = () => {
+    Dispatch(removeUser())
+    router.push('/')
+  }
 
 
   const onHamburger = () => {
@@ -51,26 +69,34 @@ const Navbar = () => {
 
           <ul className={style.nav_links}>
 
-            <li className="nav-item">
-              <Link href="/recipe-list" className={`${style.links} ${path === '/recipe-list' && style.navActive}`} onClick={onNavigate}>Recipie List</Link>
+            {user && <li className="nav-item">
+              <Link href="/recipe_list" className={`${style.links} ${path === '/recipe_list' && style.navActive}`} onClick={onNavigate}>Recipie List</Link>
             </li >
+            }
+
+            {!user && <li className="nav-item">
+              <Link href="/auth/logIn" className={`${style.links} ${path === '/auth/logIn' && style.navActive}`} onClick={onNavigate}>Log In</Link>
+            </li >
+            }
+
 
             <li className="nav-item ">
-              <Link href="/shopping-list" className={`${style.links} ${path === '/shopping-list' && style.navActive}`} onClick={onNavigate}>Shopping List</Link>
+              <Link href="/shopping_list" className={`${style.links} ${path === '/shopping_list' && style.navActive}`} onClick={onNavigate}>Shopping List</Link>
             </li >
+
 
 
             {/* Dropdown  */}
 
-            <li className="navbar-nav">
-              <div className="nav-item dropdown mx-auto">
+            {user && <li className="navbar-nav">
 
+              <div className="nav-item dropdown">
 
                 {/*  responsible for showing name  */}
 
                 <a className="nav-link dropdown-toggle d-flex align-items-center" role="button" data-bs-toggle="dropdown"
                   aria-expanded="false">
-                  <i className='bx bx-user-circle mx-1 fs-3'></i> <span style={{ fontWeight: 600 }}  >Khan Nafees</span>
+                  <i className='bx bx-user-circle mx-1 fs-3'></i> <span style={{ fontWeight: 600 }}>{user.userName}</span>
                 </a>
 
                 <ul className="dropdown-menu">
@@ -81,7 +107,7 @@ const Navbar = () => {
                   <li className='my-2'>
                     <Link href="/recipe-list/upsert-recipe" className={`${style.links}`} onClick={onNavigate}>Add Recipe</Link>
                   </li>
-
+                  <li><hr className="dropdown-divider" /></li>
                   {/* logout */}
 
                   <li className="nav-item my-2">
@@ -90,6 +116,7 @@ const Navbar = () => {
                 </ul >
               </div >
             </li >
+            }
           </ul >
         </nav >
       </header >

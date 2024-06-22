@@ -35,7 +35,6 @@ export const POST = async (req: NextRequest) => {
             { expiresIn: '1d' }
         )
 
-        console.log(Token);
 
         const Response = NextResponse.json({
             UID: User.UID,

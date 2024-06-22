@@ -1,21 +1,24 @@
 "use client"
+import { setUser } from '@/Store/Slice/userSlice'
+import { useAppDispatch } from '@/Store/hooks/hooks'
 import axios from 'axios'
 import Link from 'next/link'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import LoadingBar from 'react-top-loading-bar'
-import { json } from 'stream/consumers'
+import { useRouter } from 'next/navigation'
 
 const logInComponent = () => {
 
     const loadinBarRef = React.useRef<any>(null)
+    const dispatchUser = useAppDispatch()
+    const router = useRouter()
 
     type Inputs = {
         email: string,
         password: string | number
     }
-
 
     const { register, handleSubmit, formState: { errors }, } = useForm<Inputs>()
 
@@ -25,6 +28,7 @@ const logInComponent = () => {
 
             loadinBarRef.current.continuousStart()
             const Response = await axios.post('/API/Account/logIn', data)
+
             loadinBarRef.current.complete()
             toast.success(Response.data.message)
 
@@ -34,7 +38,9 @@ const logInComponent = () => {
                 email: Response.data.email,
             }
 
-            localStorage.setItem('user', JSON.stringify(user))
+            dispatchUser(setUser(user))
+            
+            router.push('/recipe_list')
 
         } catch (error: any) {
             loadinBarRef.current.complete()

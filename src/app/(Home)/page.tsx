@@ -14,17 +14,19 @@ import Link from "next/link"
 const HomePage = () => {
 
     const preventReexicution = useRef<boolean>(false)
-    const options = {
-        delay: 500,
-        duration: 1000,
-        interval: 200,
-        scale: 1.2,
-        reset: true
-    }
+
 
     useEffect(() => {
-        
+
         if (preventReexicution.current) return
+
+        const options = {
+            delay: 500,
+            duration: 1000,
+            interval: 200,
+            scale: 1.2,
+            reset: true
+        }
 
         ScrollReveal().reveal('.animation', options);
 
@@ -37,7 +39,7 @@ const HomePage = () => {
         <>
             <div className={style.background}>
                 <div className="container">
-                    <div className="row justify-content-around align-items-center" style={{minHeight : '90vh'}}>
+                    <div className="row justify-content-around align-items-center" style={{ minHeight: '90vh' }}>
 
                         <div className="col-lg-6">
 
