@@ -1,23 +1,25 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from './shopping_list.module.css'
 import { shopping_list_type } from "./listType";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "../components/loadingSpinner/loadingSpinner";
+import AlertDialogue from "../components/alert/alert";
 
 const ShoppingListComponent = () => {
 
     const [shoppingList, setShoppingList] = useState<shopping_list_type[]>([]);
     const [loading, setLoading] = useState<boolean>(true)
     const router = useRouter()
+    const Index = useRef<number>()
+    const isDeleteAll = useRef<boolean>(false)
 
-
-    const [delMsg, setDelMsg] = useState('');
+    const [delMsg, setDelMsg] = useState<string | null>(null);
 
 
     useEffect(() => {
-        setShoppingList(JSON.parse(localStorage.getItem('next-shopping')!))
+        setShoppingList(JSON.parse(localStorage.getItem('next-shopping')!) || [])
         setLoading(false)
     }, [])
 
@@ -33,41 +35,59 @@ const ShoppingListComponent = () => {
 
 
     const deleteIngredient = (index: number) => {
-
-        let shopping_list = JSON.parse(localStorage.getItem('next-shopping')!)
-        shopping_list.splice(index, 1)
-        localStorage.setItem('next-shopping', JSON.stringify(shopping_list));
-
-        // will update and re render dom
-        setShoppingList(JSON.parse(localStorage.getItem('next-shopping')!))
+        Index.current = index
+        setDelMsg("Do you really wants to delete this Ingredient.")
     };
 
 
     const onDeleteAll = () => {
-        // Your delete all logic here
+        isDeleteAll.current = true
+        setDelMsg("Do you really wants to delete all Ingredients.");
     };
 
 
     const onClose = () => {
-        setDelMsg('');
+        setDelMsg(null);
     };
+
 
 
     const onOk = () => {
-        // Your OK logic here
+
+        if (isDeleteAll.current) {
+            localStorage.removeItem('next-shopping')
+            setShoppingList([]);
+            isDeleteAll.current = false;
+            setDelMsg(null)
+            return true
+        }
+
+
+        let shopping_list = JSON.parse(localStorage.getItem('next-shopping')!)
+        shopping_list.splice(Index.current, 1)
+        localStorage.setItem('next-shopping', JSON.stringify(shopping_list));
+
+        // will update and re render dom
+        setShoppingList(JSON.parse(localStorage.getItem('next-shopping')!))
+        setDelMsg(null);
     };
 
 
 
-
+    // loading spinner
     if (loading) return <LoadingSpinner />
 
-    return (
-        <>
 
+
+    return (
+
+        <>
+            {/* Alert Dialogue */}
+
+            {delMsg && <AlertDialogue ok={onOk} close={onClose} message={delMsg} />}
 
             <div>
-                {shoppingList.length > 0 &&
+                {shoppingList?.length > 0 &&
                     <>
                         <section className={styles.Container}>
                             <p className={styles.shop_heading}>
@@ -120,7 +140,7 @@ const ShoppingListComponent = () => {
                     </>
                 }
 
-                {shoppingList.length < 1
+                {shoppingList?.length < 1
                     &&
                     <section className={`${styles.info_window} mx-auto`}>
                         <div className={`${styles.add_cart_icon} mt-4`}>
