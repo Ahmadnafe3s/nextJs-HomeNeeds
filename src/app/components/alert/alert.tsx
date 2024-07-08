@@ -9,7 +9,8 @@ const AlertDialogue = ({ message, ok, close }: { message: string | null, ok: any
 
             <div className="container-fluid ">
                 <div className="row justify-content-center">
-                    <section className={`col-sm-5 col-lg-3 col-9  ${style.background}`}>
+
+                    <section className={`${style.alert_container}`}>
 
                         <div className={style.icon}>
                             <i className='bx bx-error'></i>

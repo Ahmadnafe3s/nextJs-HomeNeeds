@@ -6,7 +6,6 @@ import Link from 'next/link'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import LoadingBar from 'react-top-loading-bar'
 import { useRouter } from 'next/navigation'
 
 const logInComponent = () => {
@@ -26,10 +25,8 @@ const logInComponent = () => {
 
         try {
 
-            loadinBarRef.current.continuousStart()
             const Response = await axios.post('/API/Account/logIn', data)
 
-            loadinBarRef.current.complete()
             toast.success(Response.data.message)
 
             const user = {
@@ -43,7 +40,7 @@ const logInComponent = () => {
             router.push('/recipe_list')
 
         } catch (error: any) {
-            loadinBarRef.current.complete()
+
             toast.error(error.response.data.message)
         }
     }
@@ -51,9 +48,6 @@ const logInComponent = () => {
 
     return (
         <>
-            {/* Loaading bar */}
-            <LoadingBar color="green" ref={loadinBarRef} shadow={true} />
-
             <form className="container-fluid" onSubmit={handleSubmit(onSubmit)}>
 
                 <div className="row justify-content-center align-items-center" style={{ minHeight: '90vh' }}>

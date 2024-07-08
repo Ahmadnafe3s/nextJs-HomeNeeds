@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 import Link from 'next/link'
-import  React  from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import LoadingBar from 'react-top-loading-bar'
 import toast from 'react-hot-toast'
@@ -10,8 +10,11 @@ import toast from 'react-hot-toast'
 
 const SignupComponent = () => {
     const loadinBarRef = React.useRef<any>(null)
+
+    const [isInvalidUsername, setInvalidusername] = useState<string>()
+
     type Inputs = {
-        fullName: string,
+        username: string,
         email: string,
         password: string | number
     }
@@ -31,12 +34,14 @@ const SignupComponent = () => {
 
             loadinBarRef.current.complete()
             toast.error(error.response.data.message)
-            
+
         }
     }
 
+
+
     // wtach gives passed controled value (such as onChange)
-    // console.log(watch("fullName"));
+
 
 
     return (
@@ -60,18 +65,21 @@ const SignupComponent = () => {
 
                         <div className="mb-3">
 
-                            <label htmlFor="fullName">Full Name</label>
+                            <label htmlFor="username">Username</label>
 
-                            <input type="text" id="fullName" className="form-control" placeholder="Enter your name"
+                            <input type="text" id="username" className="form-control" placeholder="Enter your name"
+
                                 {
-                                ...register('fullName',
+                                ...register('username',
                                     {
                                         required: { value: true, message: 'Required Field!' }
-                                        , maxLength: { value: 12, message: 'Max length 12' }
+                                        , maxLength: { value: 12, message: 'Max length 12' },
+                                        pattern: { value: /^[a-zA-Z0-9_]*$/, message: 'Username can only contain letters, numbers, and underscores' },
                                     })
                                 } />
 
-                            <p className="text-secondary">{errors.fullName?.message}</p>
+
+                            <p className="text-secondary">{errors.username?.message}</p>
                         </div>
 
 

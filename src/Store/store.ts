@@ -3,7 +3,6 @@ import { configureStore } from '@reduxjs/toolkit';
 // Import your reducers here
 import userReducer from './Slice/userSlice';
 
-
 export const makeStore = () => {
     return configureStore({
         reducer: {

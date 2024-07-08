@@ -106,7 +106,7 @@ const page = () => {
                             {...register('Amount',
                                 {
                                     required: { value: true, message: 'Required Field!' },
-                                    maxLength: { value: 12, message: 'Min length 8' },
+                                    maxLength: { value: 12, message: 'Max length 12' },
                                 })} />
 
                         <p className="text-secondary">{errors.Amount?.message}</p>

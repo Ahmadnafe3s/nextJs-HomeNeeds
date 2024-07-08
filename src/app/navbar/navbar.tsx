@@ -1,16 +1,15 @@
 "use client"
-import { use, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import style from './navbar.module.css'
 import Link from 'next/link'
-import { usePathname} from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import { logo_font } from '../../../public/fonts/fonts'
 import { useAppSelector, useAppDispatch } from '@/Store/hooks/hooks'
 import React from 'react'
 import { removeUser } from '@/Store/Slice/userSlice'
 import { useRouter } from 'next/navigation'
 
-type userType = {
-  UID: number,
+export type userType = {
   userName: string,
   email: string
 }
@@ -54,7 +53,7 @@ const Navbar = () => {
     <>
       <header className={`mb-2 ${style.header}`}>
 
-        <p className={`${style.navbar_brand}  ${logo_font.className}`} ><span className={style.highlight_logo}>H</span>ome <span className={style.highlight_logo}>N</span>eeds</p>
+        <Link href={'/'} className={`${style.navbar_brand}  ${logo_font.className} text-black`} ><span className={style.highlight_logo}>H</span>ome <span className={style.highlight_logo}>N</span>eeds</Link>
 
         <div id={style.menuToggle} className={style.hamburger}>
           <input id="checkbox" ref={isChecked} className={style.checkbox} type="checkbox" />
@@ -69,8 +68,10 @@ const Navbar = () => {
 
           <ul className={style.nav_links}>
 
+            {/* recipe list home */}
+
             {user && <li className="nav-item">
-              <Link href="/recipe_list" className={`${style.links} ${path === '/recipe_list' && style.navActive}`} onClick={onNavigate}>Recipie List</Link>
+              <Link href="/" className={`${style.links} ${path === '/' && style.navActive}`} onClick={onNavigate}>Recipie List</Link>
             </li >
             }
 
@@ -105,7 +106,7 @@ const Navbar = () => {
                   {/* add recipes  */}
 
                   <li className='my-2'>
-                    <Link href="/recipe-list/upsert-recipe" className={`${style.links}`} onClick={onNavigate}>Add Recipe</Link>
+                    <Link href="recipe_form" className={`${style.links}`} onClick={onNavigate}>Add Recipe</Link>
                   </li>
                   <li><hr className="dropdown-divider" /></li>
                   {/* logout */}

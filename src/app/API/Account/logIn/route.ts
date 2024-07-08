@@ -3,12 +3,14 @@ import user from "@/model/userSchema";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import { GetServerSideProps } from "next";
 
 connect();
 
 export const POST = async (req: NextRequest) => {
     try {
-        const { email, password } = await req.json();
+        const { email , password } = await req.json()
+
         const User = await user.findOne({ email })
 
         if (!User) {
@@ -19,17 +21,18 @@ export const POST = async (req: NextRequest) => {
 
         const isPasswordCorrect = await bcryptjs.compare(password, User.password);
 
+
         if (!isPasswordCorrect) {
             return NextResponse.json({
                 message: 'email or password is incorrect!'
             }, { status: 400 })
         }
 
+
         const Token = await jwt.sign(
             {
-                name: User.fullName,
+                username: User.username,
                 email: User.email,
-                UID: User.UID
             },
             process.env.JWT_TOKEN_SECRET!,
             { expiresIn: '1d' }
@@ -37,8 +40,7 @@ export const POST = async (req: NextRequest) => {
 
 
         const Response = NextResponse.json({
-            UID: User.UID,
-            userName: User.fullName,
+            userName: User.username,
             email: User.email,
             message: 'User logged in successfully!',
         })

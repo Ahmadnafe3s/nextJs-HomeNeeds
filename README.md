@@ -36,6 +36,11 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 
-## Animation Used
+## Animation Used 
 
-<https://scrollrevealjs.org/>
+<https://www.npmjs.com/package/next-reveal>
+
+
+## Progress Bar
+
+<https://www.npmjs.com/package/next-nprogress-bar>

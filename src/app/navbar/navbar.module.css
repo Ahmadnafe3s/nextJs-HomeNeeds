@@ -21,6 +21,7 @@
     margin-top: 20px;
     font-weight: 600 !important;
     cursor: pointer;
+    text-decoration: none;
 }
 
 .nav_links {

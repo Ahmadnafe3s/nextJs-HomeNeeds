@@ -6,6 +6,7 @@ import { shopping_list_type } from "./listType";
 import { useRouter } from "next/navigation";
 import LoadingSpinner from "../components/loadingSpinner/loadingSpinner";
 import AlertDialogue from "../components/alert/alert";
+import toast from "react-hot-toast";
 
 const ShoppingListComponent = () => {
 
@@ -59,24 +60,25 @@ const ShoppingListComponent = () => {
             setShoppingList([]);
             isDeleteAll.current = false;
             setDelMsg(null)
+            toast.success('Deleted all ingredients.')
             return true
         }
 
 
-        let shopping_list = JSON.parse(localStorage.getItem('next-shopping')!)
+        let shopping_list = JSON.parse(localStorage.getItem('next-shopping')!) || []
         shopping_list.splice(Index.current, 1)
         localStorage.setItem('next-shopping', JSON.stringify(shopping_list));
 
         // will update and re render dom
         setShoppingList(JSON.parse(localStorage.getItem('next-shopping')!))
         setDelMsg(null);
+        toast.success('Ingredient is deleted.')
     };
 
 
 
     // loading spinner
     if (loading) return <LoadingSpinner />
-
 
 
     return (
