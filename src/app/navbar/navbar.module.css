@@ -18,14 +18,13 @@
 
 .navbar_brand {
     font-size: 25px;
-    margin-top: 20px;
     font-weight: 600 !important;
-    cursor: pointer;
     text-decoration: none;
 }
 
 .nav_links {
     display: flex;
+    gap: 10px;
     align-items: center;
     margin-top: 15px;
     list-style: none;
@@ -48,11 +47,29 @@
 
 
 
+.profile_logo {
+    position: relative;
+    height: 80px;
+    width: 80px;
+    border-radius: 100px;
+    background-color: rgb(0, 202, 0);
+    border: 5px solid rgb(235, 235, 235);
+}
 
+
+.profile_logo p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 35px;
+    color: white;
+}
 
 
 .navActive {
     background-color: rgba(221, 255, 219, 0.837);
+    text-align: center !important;
 }
 
 
@@ -137,8 +154,6 @@
 
     .navBar {
         position: fixed;
-        display: grid;
-        place-content: center;
         height: 100vh;
         background-color: white;
         top: 0;
@@ -155,11 +170,20 @@
 
     .nav_links {
         display: block;
-        margin: 15px 0;
-        padding: 0;
+        padding: 20px;
+        /* background-color: rgb(202, 217, 251); */
     }
 
     .nav_links li {
-        margin-top: 15px;
+        /* background: lightcoral; */
+        margin: 25px 0;
+    }
+
+    .nav_links a {
+        display: block;
+        /* background-color: blueviolet; */
+        text-align: start;
+        width: 160px !important;
+        padding: 10px auto;
     }
 }

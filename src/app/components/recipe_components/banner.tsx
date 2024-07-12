@@ -4,6 +4,7 @@ import style from './recipe_components.module.css'
 import { logo_font } from '../../../../public/fonts/fonts'
 import bannerImg from '../../../../public/Images/banner.svg'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const Banner = () => {
 
@@ -24,7 +25,7 @@ const Banner = () => {
                             <hr />
 
                             <div className="mt-4">
-                                <button type="button" className="theame_dark text">Post Recipe.</button>
+                                <Link href="/recipe_form" className="theame_dark text">Post Recipe.</Link>
                             </div>
                         </RevealList>
 

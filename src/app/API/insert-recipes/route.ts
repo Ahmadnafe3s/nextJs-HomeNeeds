@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import connect from "@/dbConfig/dbConfig";
 import jwt from "jsonwebtoken"
 import { recipes } from "@/model/recipeSchema";
-import { recipeType } from "@/app/recipe_list/Types/recipeType";
+import { recipeType } from "@/app/(recipe_list)/Types/recipeType";
 
 connect();
 

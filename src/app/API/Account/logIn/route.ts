@@ -9,9 +9,9 @@ connect();
 
 export const POST = async (req: NextRequest) => {
     try {
-        const { email , password } = await req.json()
+        const { email_or_username, password } = await req.json()
 
-        const User = await user.findOne({ email })
+        const User = await user.findOne({ $or: [{ email: email_or_username }, { username: email_or_username }] })
 
         if (!User) {
             return NextResponse.json({

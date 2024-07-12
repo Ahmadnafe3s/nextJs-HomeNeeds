@@ -2,17 +2,17 @@
 
 import axios from 'axios'
 import Link from 'next/link'
-import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import LoadingBar from 'react-top-loading-bar'
 import toast from 'react-hot-toast'
+import style from '../auth.module.css'
+import { useState } from 'react';
+import { useRouter } from 'next-nprogress-bar';
 
 
 const SignupComponent = () => {
-    const loadinBarRef = React.useRef<any>(null)
 
-    const [isInvalidUsername, setInvalidusername] = useState<string>()
-
+    const [loading, setLoading] = useState<boolean>(false)
+    const router = useRouter()
     type Inputs = {
         username: string,
         email: string,
@@ -24,17 +24,16 @@ const SignupComponent = () => {
 
     const onSubmit = async (user: Inputs) => {
         try {
-
-            loadinBarRef.current.continuousStart()
+            setLoading(true)
             const Response = await axios.post('../API/Account/signUp', user)
-            loadinBarRef.current.complete()
             toast.success(Response.data.message)
+            setLoading(false)
+           router.push('/auth/logIn')
 
         } catch (error: any) {
-
-            loadinBarRef.current.complete()
+            setLoading(false)
             toast.error(error.response.data.message)
-
+ 
         }
     }
 
@@ -43,17 +42,14 @@ const SignupComponent = () => {
     // wtach gives passed controled value (such as onChange)
 
 
-
     return (
         <>
-            {/* Loaading bar */}
-            <LoadingBar color="green" ref={loadinBarRef} shadow={true} />
 
             <form className="container-fluid" onSubmit={handleSubmit(onSubmit)}>
 
                 <div className="row justify-content-center align-items-center" style={{ minHeight: '90vh' }}>
 
-                    <div className="col-md-5 col-lg-3 col-10 bg-white pt-4 pb-3 px-3 ">
+                    <div className={`${style.form} pt-4 pb-3 px-3`}>
 
                         <section className='text-center'>
                             <p className='fs-3 fw-bolder'>Sign Up</p>
@@ -127,7 +123,14 @@ const SignupComponent = () => {
 
 
                         {/* submit button  */}
-                        <button type="submit" className="btn btn-success w-100">Sign Up</button>
+                        <button type="submit" className="btn btn-success w-100">
+                            {loading ? <div className="spinner-border spinner-border-sm text-light" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                                :
+                                'Sign Up'
+                            }
+                        </button>
 
 
                         {/* switch log mode  */}

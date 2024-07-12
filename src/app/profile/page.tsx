@@ -141,7 +141,7 @@ const ProfileComponent = () => {
 
             {/* MODELS */}
 
-            {model && <Model Name={model.Name!} Image={model.RecipeImage.URL!} ID={model._id!} event={() => { setModel(null) }} onDelete={(ID: string) => { onDelete(ID) }} />}
+            {model && <Model Name={model.Name!} Image={model.RecipeImage.URL!} ID={model._id!} username={user!} event={() => { setModel(null) }} onDelete={(ID: string) => { onDelete(ID) }} />}
             {delteMessage && <AlertDialogue message={delteMessage} ok={onOk} close={() => setDeletmessage(null)} />}
         </>
     )

@@ -3,13 +3,7 @@
     transform: scale(1.2);
     transition: 0.3s ease-in-out;
   }
-  
-  .shop_heading {
-    font-family: var(--font);
-    font-weight: 600;
-    font-size: clamp(25px, 3vw, 40px);
-    text-align: center;
-  }
+
   
   .Container {
     margin-top: 40px !important;

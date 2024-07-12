@@ -6,9 +6,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import style from '../../recipe_list.module.css'
 import { recipesListResponseType } from '../../Types/recipeType'
 import LoadinSpinner_2 from '@/app/components/loadingSpinner-2/loadingSpinner-2'
-import Link from 'next/link'
 import Banner from '../../../components/recipe_components/banner'
 import { banner_heading } from '../../../../../public/fonts/fonts'
+import toast from 'react-hot-toast'
+import Link from 'next/link'
 
 
 const RecipeDetails = ({ params }: any) => {
@@ -18,12 +19,13 @@ const RecipeDetails = ({ params }: any) => {
 
     const fetchRecipeDetails = async () => {
         try {
+
             const response = await axios.get<{ recipe_Details: recipesListResponseType }>(`/API/getRecipeDetails/${params.id}`)
             console.log(response.data.recipe_Details.RecipeImage);
-
             setDetails(response.data.recipe_Details)
-        } catch (error) {
 
+        } catch (error: any) {
+            toast.error(error.response.data.message)
         }
     }
 
@@ -37,11 +39,26 @@ const RecipeDetails = ({ params }: any) => {
 
     }, [])
 
+
+    const onSendToshoppingList = () => {
+
+        const ShoppingList = JSON.parse(localStorage.getItem('next-shopping')!) || []
+
+        for (const element of details?.Ingredients!) {
+            ShoppingList.push(element)
+        }
+
+        localStorage.setItem('next-shopping', JSON.stringify(ShoppingList))
+
+        toast.success('Ingredients have been sent.')
+
+    }
+
     return (
+
         <>
 
             <Banner />
-
 
             {/* Detail Info section */}
 
@@ -57,13 +74,13 @@ const RecipeDetails = ({ params }: any) => {
                         <div className=" col-12 col-md-10 mt-5">
                             <div>
                                 <p className={`display-5 fw-bold text-center ${banner_heading.className}`} style={{ letterSpacing: '5px' }}>{details?.Name}</p>
-                                <p className='my-2'>Category | <span className='fw-bold text-bg-success badge rounded-end-pill'>{details?.Category}</span></p>
                                 <div className='d-flex align-items-center'>
 
                                     <i className='bx bx-user-circle fs-2'></i>
 
-                                    <p className=' fw-bold pt-3 ms-1 '>{details.FID}</p>
+                                    <Link href={`/profile?user=${details.FID}`} className=' text-decoration-none fw-bold ms-1'>{details.FID}</Link> {/* username */}
                                 </div>
+                                <p className='my-2'>Category | <span className='fw-bold text-bg-success badge rounded-end-pill'>{details?.Category}</span></p>
 
                             </div>
 
@@ -113,7 +130,7 @@ const RecipeDetails = ({ params }: any) => {
                                     </ol>
 
                                     <div className='col-md-7 mt-3 '>
-                                        <Link href='' className='theame_dark d-inline-block'>Shopping <i className='bx bxs-cart-add'></i></Link>
+                                        <a className='link-success text-decoration-none fw-bold' onClick={onSendToshoppingList}>Add to Shopping.</a>
                                     </div>
                                 </div>
 

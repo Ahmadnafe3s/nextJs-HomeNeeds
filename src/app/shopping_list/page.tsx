@@ -15,7 +15,6 @@ const ShoppingListComponent = () => {
     const router = useRouter()
     const Index = useRef<number>()
     const isDeleteAll = useRef<boolean>(false)
-
     const [delMsg, setDelMsg] = useState<string | null>(null);
 
 
@@ -90,12 +89,17 @@ const ShoppingListComponent = () => {
 
             <div>
                 {shoppingList?.length > 0 &&
+
                     <>
                         <section className={styles.Container}>
-                            <p className={styles.shop_heading}>
-                                <span style={{ color: 'green' }}>S</span>hopping{' '}
-                                <span style={{ color: 'green' }}>L</span>ist <i className='bx bx-cart-download'></i>
-                            </p>
+                            <div className=" py-5 text-center">
+                                <p className=" display-2 fw-bold" style={{ color: 'green' }}>
+                                    Shopping List.
+                                </p>
+                                <p>
+                                    Add your ingredients in your shopping list also you can easily manage your shopping list.
+                                </p>
+                            </div>
                             <br />
                             <div className="position-relative">
                                 <button className={styles.Btn} onClick={onAddMore}>
@@ -106,7 +110,9 @@ const ShoppingListComponent = () => {
                                 </button>
                             </div>
                         </section>
+
                         <br />
+
                         <div className='table-responsive mb-5'>
                             <table className={`${styles.Table} table table-hover text-center`}>
                                 <thead className='table-dark'>

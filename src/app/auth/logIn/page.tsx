@@ -3,19 +3,21 @@ import { setUser } from '@/Store/Slice/userSlice'
 import { useAppDispatch } from '@/Store/hooks/hooks'
 import axios from 'axios'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next-nprogress-bar'
+import style from '../auth.module.css'
+import LoadinSpinner_2 from '@/app/components/loadingSpinner-2/loadingSpinner-2'
 
 const logInComponent = () => {
 
-    const loadinBarRef = React.useRef<any>(null)
     const dispatchUser = useAppDispatch()
+    const [loading, setLoading] = useState<boolean>(false)
     const router = useRouter()
 
     type Inputs = {
-        email: string,
+        email_or_username: string,
         password: string | number
     }
 
@@ -24,7 +26,7 @@ const logInComponent = () => {
     const onSubmit = async (data: Inputs) => {
 
         try {
-
+            setLoading(true)
             const Response = await axios.post('/API/Account/logIn', data)
 
             toast.success(Response.data.message)
@@ -36,23 +38,26 @@ const logInComponent = () => {
             }
 
             dispatchUser(setUser(user))
-            
-            router.push('/recipe_list')
+            setLoading(false)
+            router.push('/')
 
         } catch (error: any) {
 
+            setLoading(false)
             toast.error(error.response.data.message)
+            
         }
     }
 
 
     return (
         <>
+
             <form className="container-fluid" onSubmit={handleSubmit(onSubmit)}>
 
                 <div className="row justify-content-center align-items-center" style={{ minHeight: '90vh' }}>
 
-                    <div className="col-md-5 col-lg-3 col-10 bg-white pt-4 pb-3 px-3 ">
+                    <div className={` pt-4 pb-3 px-3 ${style.form}`}>
 
                         <section className='text-center'>
                             <p className='fs-3 fw-bolder'>Log In</p>
@@ -64,16 +69,15 @@ const logInComponent = () => {
                         {/* Email Field */}
 
                         <div className="mb-3">
-                            <label htmlFor="email">Email</label>
-                            <input type="text" id="email" className="form-control" placeholder="example@gmail.com"
+                            <label htmlFor="email">Email or Username</label>
+                            <input type="text" id="email" className="form-control" placeholder="email or username"
                                 {
-                                ...register('email',
+                                ...register('email_or_username',
                                     {
-                                        required: { value: true, message: 'Required Field!' },
-                                        pattern: { value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/, message: 'Enter valid email!' }
+                                        required: { value: true, message: 'Required Field!' }
                                     })
                                 } />
-                            <p className="text-secondary">{errors.email?.message}</p>
+                            <p className="text-secondary">{errors.email_or_username?.message}</p>
                         </div>
 
 
@@ -109,7 +113,14 @@ const logInComponent = () => {
 
 
                         {/* submit button  */}
-                        <button type="submit" className="btn btn-success w-100">Log In</button>
+                        <button type="submit" className="btn btn-success w-100">
+                            {loading ? <div className="spinner-border spinner-border-sm text-light" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                                :
+                                'Log In'
+                            }
+                        </button>
 
 
                         {/* switch log mode  */}
