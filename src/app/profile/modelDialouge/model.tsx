@@ -3,12 +3,9 @@ import style from './model.module.css'
 import Link from 'next/link'
 import { useAppSelector } from '@/Store/hooks/hooks'
 
-const Model = ({ Image, ID, Name, username, event, onDelete }: { Image: string, ID: string, Name: string, username: string, event: any, onDelete: any }) => {
+const Model = ({ Image, ID, Name, username, event, onDelete }: { Image: { url: string, public_id: string }, ID: string, Name: string, username: string, event: any, onDelete: any }) => {
 
   const user = useAppSelector(state => state.user.user)
-
-  console.log(!user);
-
 
   return (
     <>
@@ -17,7 +14,7 @@ const Model = ({ Image, ID, Name, username, event, onDelete }: { Image: string, 
       <div className={style.model}>
 
         <div className={style.img_container}>
-          <img src={Image} className=' object-fit-cover rounded-4' alt="" />
+          <img src={Image.url} className=' object-fit-cover rounded-4' alt="" />
         </div>
 
         <div className='mt-4'>
@@ -30,9 +27,9 @@ const Model = ({ Image, ID, Name, username, event, onDelete }: { Image: string, 
 
             <Link className='link-success' href={`recipe_details/${ID}`}><i className='bx bx-info-circle' ></i></Link>
 
-            {user && (user.userName === username) && <Link className='link-primary' href={'/check'}><i className='bx bx-edit-alt' ></i></Link>}
+            {user && (user.userName === username) && <Link className='link-primary' href={`/recipe_form?id=${ID}`}><i className='bx bx-edit-alt' ></i></Link>}
 
-            {user && (user.userName === username) && <a className='link-danger' onClick={() => onDelete(ID)}><i className='bx bx-trash'></i></a>}
+            {user && (user.userName === username) && <a className='link-danger' onClick={() => onDelete(ID , Image.public_id)}><i className='bx bx-trash'></i></a>}
 
           </div>
           <hr />

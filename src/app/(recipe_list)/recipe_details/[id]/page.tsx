@@ -21,7 +21,6 @@ const RecipeDetails = ({ params }: any) => {
         try {
 
             const response = await axios.get<{ recipe_Details: recipesListResponseType }>(`/API/getRecipeDetails/${params.id}`)
-            console.log(response.data.recipe_Details.RecipeImage);
             setDetails(response.data.recipe_Details)
 
         } catch (error: any) {
@@ -90,7 +89,7 @@ const RecipeDetails = ({ params }: any) => {
                             {/* Image section */}
 
                             <div className={` mx-auto my-5 ${style.details_img_container}`}>
-                                <img src={details?.RecipeImage.URL} className='img-fluid ' alt="" />
+                                <img src={details?.RecipeImage.url} className='img-fluid ' alt="" />
                                 <p className=' display-3 text-white'>{details?.Name}</p>
                             </div>
 
@@ -100,7 +99,7 @@ const RecipeDetails = ({ params }: any) => {
                                 return (
                                     <div key={index} className='mb-4'>
                                         <p className='fs-5 fw-bold mt-3'>{elem.heading}</p>
-                                        <p>{elem.Text?.replaceAll(/\n/g, '\n\n' + ' ')}</p>
+                                        <p>{elem.text?.replaceAll(/\n/g, '\n\n' + ' ')}</p>
                                     </div>
                                 )
                             })}

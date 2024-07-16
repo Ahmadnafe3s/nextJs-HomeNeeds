@@ -15,7 +15,7 @@ type profileDataRes = {
         {
             _id: string,
             Name: string,
-            RecipeImage: { URL: string, Asset_ID: String, Public_ID: string },
+            RecipeImage: { url: string, public_id: string },
         }
     ]
 }
@@ -28,7 +28,7 @@ const ProfileComponent = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const [model, setModel] = useState<any>(null)
     const [delteMessage, setDeletmessage] = useState<null | string>(null)
-    const id = useRef<string | null>(null)
+    const deleteQuery = useRef({ id: '', public_id: '' })
 
     const fetchProfiledata = async () => {
         try {
@@ -51,23 +51,27 @@ const ProfileComponent = () => {
         setModel(profile?.userProfileData[index])
     }
 
-    const onDelete = (ID: string) => {
-        id.current = ID; // taking id of selected recipe which have to delete
+    const onDelete = (ID: string, PUBLIC_ID: string) => {
+        deleteQuery.current.id = ID; // taking id of selected recipe which have to delete
+        deleteQuery.current.public_id = PUBLIC_ID
         setDeletmessage('Are you sure you want to delete this recipe?')
         setModel(null)
     }
 
     const onOk = async () => {
         try {
-            await axios.delete<profileDataRes>(`/API/deleteRecipe?id=${id.current}`)
+
+            const res = await axios.delete(`/API/deleteRecipe?id=${deleteQuery.current.id}&p_id=${deleteQuery.current.public_id}`)
             setDeletmessage(null)
             fetchProfiledata();
+            toast.success(res.data.message)
+
         } catch (error: any) {
             toast.error(error.response.data.message)
         }
     }
 
-    
+
     return (
         <>
             <div className="container">
@@ -98,7 +102,7 @@ const ProfileComponent = () => {
                             {(profile?.userProfileData.length! > 0) && profile?.userProfileData.map((elem, index) => {
                                 return (
                                     <div key={index}>
-                                        <img src={elem.RecipeImage.URL} alt='' onClick={() => { onPost(index) }} />
+                                        <img src={elem.RecipeImage.url} alt='' onClick={() => { onPost(index) }} />
                                         <p className='fw-bold'>{elem.Name}</p>
                                     </div>
                                 )
@@ -139,10 +143,20 @@ const ProfileComponent = () => {
                 </div>
             </div>
 
+
             {/* MODELS */}
 
-            {model && <Model Name={model.Name!} Image={model.RecipeImage.URL!} ID={model._id!} username={user!} event={() => { setModel(null) }} onDelete={(ID: string) => { onDelete(ID) }} />}
+            {model && <Model
+                Name={model.Name!}
+                Image={model.RecipeImage}
+                ID={model._id!}
+                username={user!}
+                event={() => { setModel(null) }}
+                onDelete={(ID: string, PUBLIC_ID: string) => { onDelete(ID, PUBLIC_ID) }}
+            />}
+
             {delteMessage && <AlertDialogue message={delteMessage} ok={onOk} close={() => setDeletmessage(null)} />}
+
         </>
     )
 }

@@ -1,17 +1,18 @@
 "use client"
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { heading_font } from '../../../../public/fonts/fonts'
-import { recipeType } from '../Types/recipeType'
+import { recipesListResponseType, recipeType } from '../Types/recipeType'
 import axios from 'axios'
 import upload_image from '@/helpers/cloudinary/uplaod-images'
 import toast from 'react-hot-toast'
+import { useSearchParams } from 'next/navigation'
 
 
 const RecipeForm = () => {
 
-    const { register, handleSubmit, formState: { errors }, control, reset, watch } = useForm<recipeType>()
+    const { register, handleSubmit, formState: { errors }, control, reset, watch, setValue } = useForm<recipeType>()
 
     // this arrayField handling Details fields
     const { fields: detailsField, append: appendDetails, remove: removeDetails } = useFieldArray({ name: 'Details', control })
@@ -20,44 +21,139 @@ const RecipeForm = () => {
     const { fields: IngredientsField, append: appendIngredients, remove: removeIngredients } = useFieldArray({ name: 'Ingredients', control })
 
     //  append: appendIngredients it is custom Name or alias that is differentiating both appends. or other things
+    //  remove: removeIngredients it is custom Name or alias that is differentiating both removes.
+
+    const Param = useSearchParams()
+    const preventRecall = useRef<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(false)
+    const [editMode, setEditmode] = useState<boolean>(!!Param.get('id'));
+    const ID = useRef<string | null>(Param.get('id'))
+    const ImageData = useRef<any>(null)
+
+    const bindDataToform = async () => {
+        try {
+            setLoading(true)
+            const ResData = await axios.get<{ recipe_Details: recipesListResponseType }>(`API/getRecipeDetails/${ID.current}`)
+            const DETAILS = ResData.data.recipe_Details
+            setValue('Name', DETAILS.Name)
+            setValue('Description', DETAILS.Description)
+            setValue('Category', DETAILS.Category)
+            setValue('RecipeImage', DETAILS.Category)
+            ImageData.current = DETAILS.RecipeImage
+
+            // binding Heading and text fields
+
+            for (const elem of DETAILS.Details) {
+                if (elem.Type === 'Text') {
+                    appendDetails({ Type: elem.Type, text: elem.text })
+                }
+
+                if (elem.Type === 'heading') {
+                    appendDetails({ Type: elem.Type, heading: elem.heading })
+                }
+            }
+
+            // binding Ingredients fields
+
+            for (const elem of DETAILS.Ingredients) {
+                appendIngredients(elem)
+            }
+
+            setLoading(false)
+        } catch (error) {
+            setLoading(false)
+        }
+
+    }
 
 
 
-    const [editMode, setEditmode] = useState(false);
+
+    useEffect(() => {
+        if (preventRecall.current) return
+
+        if (editMode) {
+            bindDataToform()
+        }
+
+        preventRecall.current = true
+    }, [])
 
 
 
-    const onSubmit = async (data: recipeType) => {
 
-        // Avoiding Type field or filtering out.. 
-        const sanitized = data.Details.map((Element) => {
-            const { type, ...rest } = Element
-            return rest
-        });
 
+    const postRecipe = async (formData: recipeType) => {
         try {
 
+            setLoading(true)
 
-            data.Details = sanitized // overriting Details
+            // Only will upload image when input fiels will have value.
+
+            if (formData.RecipeImage.length > 0) {
+                const Image: any = await upload_image(formData.RecipeImage[0] as unknown as File) // returning a promise
+
+                const { public_id, url } = Image.data // Destructuring or extracting data
+
+                formData.RecipeImage = { public_id , url } as unknown as any // updating field or modifing
+
+            }
 
 
-            const Image = await upload_image(data.RecipeImage[0] as unknown as File) // returning a promise
-
-            const { public_id, asset_id, url } = Image.data // Destructuring or extracting data
-
-            data.RecipeImage = { Public_ID: public_id, Asset_ID: asset_id, URL: url } as unknown as any // updating field or modifing
-
-            const Response = await axios.post('/API/insert-recipes', data)
+            const Response = await axios.post('/API/insert-recipes', formData)
 
             toast.success(Response.data.message)
 
+            setLoading(false)
+            reset()
 
         } catch (error: any) {
 
             toast.error(error.response.data.message)
+            setLoading(false)
+        }
+    }
 
+
+
+    const updateRecipe = async (formData: recipeType) => {
+        try {
+
+            setLoading(true)
+
+            if (formData.RecipeImage.length < 1) {
+                formData.RecipeImage = ImageData.current
+            } else {
+
+                const Image: any = await upload_image(formData.RecipeImage[0] as unknown as File) // returning a promise
+                console.log(Image);
+                const { public_id ,  url } = Image.data // Destructuring or extracting data
+                formData.RecipeImage = { public_id, url } as unknown as any // updating field or modifing
+
+            }
+
+            const Response = await axios.put(`/API/updateRecipe/${ID.current}`, formData)
+
+            toast.success(Response.data.message)
+
+            setLoading(false)
+            reset()
+        } catch (error: any) {
+            toast.error(error.response.data.message)
+            setLoading(false)
         }
 
+
+    }
+
+
+    const onSubmit = (data: recipeType) => {
+
+        if (editMode) {
+            updateRecipe(data)
+        } else {
+            postRecipe(data);
+        }
     }
 
 
@@ -65,6 +161,7 @@ const RecipeForm = () => {
         reset()
         removeDetails()
         removeIngredients()
+        setEditmode(false)
     }
 
 
@@ -78,6 +175,11 @@ const RecipeForm = () => {
     };
 
 
+    const demo = async () => {
+        const res = await axios.delete(`/API/deleteImage?p_id=${ImageData.current.public_id}`)
+        console.log(res.data);
+    }
+
     return (
         <>
 
@@ -85,18 +187,14 @@ const RecipeForm = () => {
 
                 <div className="row justify-content-center align-items-center py-5" style={{ minHeight: '90vh' }}>
 
-                    <div className="col-md-6 col-11 bg-white pt-4 pb-4 px-3 ">
+                    <div className="col-md-6 col-11 bg-white p-4 ">
 
                         <section className='text-center'>
 
-                            <p className={`fs-3 fw-bolder ${heading_font.className}`}>{editMode ? 'Update' : 'Ingredient'}</p>
+                            <p className={`fs-3 fw-bolder ${heading_font.className}`}>{editMode ? 'Update Recipe' : 'Post Recipe'}</p>
 
                             <p className='text-secondary'>
-                                {editMode ?
-                                    'A balanced amount of ingredients makes tasty foods.'
-                                    :
-                                    'Ingredient are essential for Cooking tasty foods.'
-                                }
+                                Post your own recipe to world to show magic of your recipe.
                             </p>
 
                         </section>
@@ -162,10 +260,10 @@ const RecipeForm = () => {
                                 {
                                 ...register('RecipeImage',
                                     {
-                                        required: { value: true, message: 'Required Field!' },
                                         validate: validateFileSize
                                     })
-                                } />
+                                }
+                            />
                             <p className="text-secondary">{errors.RecipeImage?.message as unknown as string}</p>
 
                         </div>
@@ -183,7 +281,7 @@ const RecipeForm = () => {
 
                                     <div key={field.id}>
 
-                                        {field.type === 'heading' && (
+                                        {field.Type === 'heading' && (
 
                                             <section className='row justify-content-center'>
 
@@ -212,7 +310,7 @@ const RecipeForm = () => {
                                         )}
 
 
-                                        {field.type === 'Text' && (
+                                        {field.Type === 'Text' && (
 
                                             <section className='row justify-content-center'>
 
@@ -222,7 +320,7 @@ const RecipeForm = () => {
                                                         className="form-control"
                                                         rows={3}
                                                         placeholder="Enter recipe details"
-                                                        {...register(`Details.${index}.Text` as any, {
+                                                        {...register(`Details.${index}.text` as any, {
                                                             required: { value: true, message: 'Required Field!' },
                                                         })}
                                                     />
@@ -233,7 +331,7 @@ const RecipeForm = () => {
                                                     <i className='bx bx-x-circle' style={{ cursor: 'pointer' }} onClick={() => { removeDetails(index) }}></i>
                                                 </div>
 
-                                                <p className="text-secondary col-11">{errors.Details?.[index]?.Text?.message}</p>
+                                                <p className="text-secondary col-11">{errors.Details?.[index]?.text?.message}</p>
 
 
                                             </section>
@@ -253,8 +351,7 @@ const RecipeForm = () => {
 
                             {/* Button to add headings */}
                             <a className='link-success fw-bold'
-                                onClick={() => { appendDetails({ type: 'heading', heading: '' }) }}
-                                style={{ cursor: 'pointer' }}
+                                onClick={() => { appendDetails({ Type: 'heading', heading: '' }) }}
                             >Heading
                             </a>
 
@@ -264,8 +361,7 @@ const RecipeForm = () => {
 
                             {/* Button to add Tetxs */}
                             <a className='link-success fw-bold'
-                                onClick={() => { appendDetails({ type: 'Text', Text: '' }) }}
-                                style={{ cursor: 'pointer' }}
+                                onClick={() => { appendDetails({ Type: 'Text', text: '' }) }}
                             >Text
                             </a>
 
@@ -330,7 +426,7 @@ const RecipeForm = () => {
                                         {/* Button for removing Ingredient fields */}
 
                                         <div className="text-end mb-2">
-                                            <a className=' link-danger fw-medium' style={{ cursor: 'pointer' }} onClick={() => { removeIngredients(index) }}>Delete</a>
+                                            <a className=' link-danger fw-medium' onClick={() => { removeIngredients(index) }}>Delete</a>
                                         </div>
 
                                     </section>
@@ -342,24 +438,37 @@ const RecipeForm = () => {
                         {/* button for adding ingredients */}
 
                         <div className='my-3'>
-                            <a className="link-success fw-bold" style={{ cursor: 'pointer' }} onClick={() => appendIngredients({ Ingredient: '', Amount: '' })}>Add Ingredients</a>
+                            <a className="link-success fw-bold" onClick={() => appendIngredients({ Ingredient: '', Amount: '' })}>Add Ingredients</a>
                         </div>
 
                         <br />
 
 
                         {/* submit button  */}
-                        <button type="submit" className="btn btn-success w-100">{editMode ? 'Update' : 'Submit'}</button>
+                        <button type="submit" className="btn btn-success w-100">
+                            {loading ? <div className="spinner-border spinner-border-sm text-light" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                                :
+                                editMode ? 'Update' : 'Submit'
+                            }
+
+                        </button>
 
                         {/* reset button */}
                         <div className='text-center mt-3'>
-                            <a className='link-danger fw-medium' style={{ cursor: 'pointer' }} onClick={onReset}>Reset</a>
+                            <a className='link-danger fw-medium' onClick={onReset}>Reset</a>
                         </div>
                     </div>
                 </div>
             </form >
+
+            <button type="button" onClick={demo}>DEMO</button>
         </>
     )
 }
+
+
+
 
 export default RecipeForm

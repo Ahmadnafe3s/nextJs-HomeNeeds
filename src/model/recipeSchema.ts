@@ -29,10 +29,15 @@ const recipeSchema = new mongoose.Schema({
                 type: String
             },
 
-            Text: {
+            text: {
+                type: String
+            },
+
+            Type: {
                 type: String
             }
         },
+        
         { require: true }
     ],
 

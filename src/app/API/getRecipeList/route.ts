@@ -15,7 +15,7 @@ export const GET = async (req: NextRequest) => {
         const Skip = (page - 1) * Limit   // (1 - 1) + 12 = 0 , (2 - 1) * 12 = 12 
 
         const pipeline = [{ $count: "total_items" }];
-        const recipesList = await recipes.find().skip(Skip).limit(Limit) // skip will skip n number of docs if 12 then 12 , limit returns n number of docs.
+        const recipesList = await recipes.find().skip(Skip).limit(Limit).sort({_id : -1}) // skip will skip n number of docs if 12 then 12 , limit returns n number of docs.
         const Total_Items = await recipes.aggregate(pipeline)
 
         return NextResponse.json({

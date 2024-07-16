@@ -10,6 +10,7 @@ import { removeUser } from '@/Store/Slice/userSlice'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import AlertDialogue from '../components/alert/alert'
 
 export type userType = {
   userName: string,
@@ -26,6 +27,7 @@ const Navbar = () => {
   const path = usePathname()
   const Dispatch = useAppDispatch()
   const router = useRouter()
+  const [logout, setLogout] = useState({ message: '', status: false })
 
   const userData = useAppSelector((state) => state.user).user // will call each re-render . hooks cant call in another hooks or any functions body except root function.
 
@@ -41,8 +43,12 @@ const Navbar = () => {
 
 
   const onLogout = async () => {
-    try {
+    setLogout({ message: 'Are you sure to logout from your account.', status: true })
+  }
 
+
+  const onOk = async () => {
+    try {
       const response = await axios.get('/API/logout')
       toast.success(response.data.message)
       Dispatch(removeUser())
@@ -54,12 +60,16 @@ const Navbar = () => {
       toast.error(err.response.date.message)
 
     }
+
+    setLogout({ message: '', status: false })
   }
+
 
 
   const onHamburger = () => {
     setNavOpen(!isNavOpend)
   }
+
 
 
   return (
@@ -135,7 +145,7 @@ const Navbar = () => {
 
             {user &&
               <li className='nav-item d-md-none'>
-                <Link href="recipe_form" className={`${style.links} ${path === '/recipe_form' && style.navActive}`} onClick={onNavigate}>Add Recipe</Link>
+                <Link href="recipe_form" className={`${style.links} ${path === '/recipe_form' && style.navActive}`} onClick={onNavigate}>Post Recipe</Link>
               </li>
             }
 
@@ -184,7 +194,7 @@ const Navbar = () => {
                   {/* add recipes  */}
 
                   <li className='my-4'>
-                    <Link href="recipe_form" className={`${style.links}`} onClick={onNavigate}>Add Recipe</Link>
+                    <Link href="recipe_form" className={`${style.links}`} onClick={onNavigate}>Post Recipe</Link>
                   </li>
 
                   <li><hr className="dropdown-divider" /></li>
@@ -204,6 +214,8 @@ const Navbar = () => {
           </ul >
         </nav >
       </header >
+
+      {logout.status && <AlertDialogue message={logout.message} ok={onOk} close={() => setLogout({ message: '', status: false })} />}
     </>
   )
 }

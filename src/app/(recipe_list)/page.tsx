@@ -79,7 +79,7 @@ const RecipesComponent = () => {
           {resData?.Recipe_List ? resData.Recipe_List.map((recipe, index) => {
 
             return (
-              <RecipeCard Name={recipe.Name} Image={recipe.RecipeImage.URL} ID={recipe._id} Description={recipe.Description} key={index} />
+              <RecipeCard Name={recipe.Name} Image={recipe.RecipeImage.url} ID={recipe._id} Description={recipe.Description} key={index} />
             )
           })
 
