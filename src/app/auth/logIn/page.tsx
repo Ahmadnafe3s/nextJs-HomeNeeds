@@ -21,7 +21,7 @@ const logInComponent = () => {
         password: string | number
     }
 
-    const { register, handleSubmit, formState: { errors }, } = useForm<Inputs>()
+    const { register, handleSubmit, formState: { errors },} = useForm<Inputs>()
 
     const onSubmit = async (data: Inputs) => {
 
@@ -45,7 +45,7 @@ const logInComponent = () => {
 
             setLoading(false)
             toast.error(error.response.data.message)
-            
+
         }
     }
 
@@ -105,7 +105,7 @@ const logInComponent = () => {
                         {/* forget password button */}
 
                         <div className="text-end mt-2">
-                            <a className="link-primary" href="forget-password">forget password</a>
+                            <Link className="link-primary" href="/auth/forgetPassword">forget password</Link>
                         </div>
 
 

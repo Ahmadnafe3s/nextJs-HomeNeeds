@@ -24,7 +24,7 @@ const StoreProvider = ({ children }: { children: ReactNode }) => {
 
     <ProgressBar
       height="4px"
-      color="green"
+      color="#09790a"
       options={{ showSpinner: false }}
       shallowRouting
     />

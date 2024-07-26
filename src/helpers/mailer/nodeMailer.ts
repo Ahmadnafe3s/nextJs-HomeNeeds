@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import { verifyEmailHTML } from './htmlFiles';
+import { ResetPasswordHTML, verifyEmailHTML } from './HTMLFiles';
 
 const Transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -10,14 +10,17 @@ const Transporter = nodemailer.createTransport({
 });
 
 
-export default async function mailer(email: string, Subject: string) {
+export default async function mailer(recipientEmail: string, Subject: string, Content?: { OTP: string, username: string }) {
+
+
 
     try {
-        const mailOption = {
+
+        const mailOption: any = {
             from: process.env.EMAIL,
-            to: email,
+            to: recipientEmail,
             subject: Subject,
-            html: verifyEmailHTML
+            html: Subject === 'Reset Password' ? ResetPasswordHTML(Content?.OTP!, Content?.username!) : verifyEmailHTML
         }
 
         await Transporter.sendMail(mailOption)

@@ -121,12 +121,10 @@ const RecipeForm = () => {
 
             setLoading(true)
 
-            if (formData.RecipeImage.length < 1) {
+            if (formData.RecipeImage.length === 0) {
                 formData.RecipeImage = ImageData.current
             } else {
-
                 const Image: any = await upload_image(formData.RecipeImage[0] as unknown as File) // returning a promise
-                console.log(Image);
                 const { public_id ,  url } = Image.data // Destructuring or extracting data
                 formData.RecipeImage = { public_id, url } as unknown as any // updating field or modifing
 
@@ -462,8 +460,6 @@ const RecipeForm = () => {
                     </div>
                 </div>
             </form >
-
-            <button type="button" onClick={demo}>DEMO</button>
         </>
     )
 }

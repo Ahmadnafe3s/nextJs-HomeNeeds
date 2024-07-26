@@ -69,3 +69,66 @@ export const verifyEmailHTML =
 </html>
 
 `
+
+
+
+
+
+
+export const ResetPasswordHTML = (OTP: string, username: string) => {
+    return `
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset Password</title>
+    <style>
+        .highlight {
+            color: green;
+        }
+
+        .row {
+            display: grid;
+            align-items: center;
+            text-align: center;
+            min-height: 100vh;
+        }
+
+        .user {
+            font-size: clamp(31px, 3vw, 70px);
+            font-weight: 600;
+
+        }
+
+        .otp {
+            font-size: 50px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body style="padding: 10px; color: black;">
+    <div class="container">
+        <div class="row min-vh-100 align-items-center text-center">
+            <div>
+                <H1 class="user">Hi! <span class="highlight">"${username}"</span></H1>
+                <p>Your one time password is.</p>
+                <p class="otp">${OTP}</p>
+                <p>This One Time Password is only Valid for 5 minutes do not share it with anyone it is quite sensitive.
+                    if it is not done by you then you can contact us!
+                </p>
+            </div>
+
+            <div>
+                <h4><span class="highlight">H</span>ome <span class="highlight">N</span>eeds</h4>
+                <p style="font-size: 11px;">All Rights reserved to HomeNeeds</p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+`
+}

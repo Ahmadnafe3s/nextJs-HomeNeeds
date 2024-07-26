@@ -76,7 +76,7 @@ const Navbar = () => {
     <>
       <header className={`mb-2 ${style.header}`}>
 
-        <Link href={'/'} className={`${style.navbar_brand}  ${logo_font.className} text-black`} ><span className={style.highlight_logo}>H</span>ome <span className={style.highlight_logo}>N</span>eeds</Link>
+        <Link href={'/'} className={`${style.navbar_brand}  ${logo_font.className} text-black fs-2`} ><span className={style.highlight_logo}>H</span>ome <span className={style.highlight_logo}>N</span>eeds</Link>
 
         <div id={style.menuToggle} className={style.hamburger}>
           <input id="checkbox" ref={isChecked} className={style.checkbox} type="checkbox" />
