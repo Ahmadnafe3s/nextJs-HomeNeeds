@@ -13,6 +13,7 @@ import { useSearchParams } from 'next/navigation'
 import SearchBar from '../components/recipe_components/searchBar'
 import RecipeCard from '../components/recipe_components/card'
 import CategoryButton from '../components/recipe_components/category_btn'
+import Footer from '../footer/footer'
 
 
 const RecipesComponent = () => {
@@ -52,7 +53,7 @@ const RecipesComponent = () => {
 
       {searchPage === 1 && <Banner />}
 
-      <SearchBar position='end'/>
+      <SearchBar position='end' />
 
 
       <br />
@@ -114,6 +115,8 @@ const RecipesComponent = () => {
 
         </div>
       </div>
+
+      <Footer />
 
     </>
   )

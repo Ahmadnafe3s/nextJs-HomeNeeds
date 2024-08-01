@@ -31,7 +31,6 @@ function getUserData() {
 
 type userType = {
     user: {
-        UID: number,
         userName: string,
         email: string,
     } | null

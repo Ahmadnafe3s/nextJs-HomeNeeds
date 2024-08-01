@@ -24,7 +24,7 @@ export const POST = async (req: NextRequest) => {
 
         if (!isPasswordCorrect) {
             return NextResponse.json({
-                message: 'email or password is incorrect!'
+                message: 'user or password is incorrect!'
             }, { status: 400 })
         }
 

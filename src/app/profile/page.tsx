@@ -8,6 +8,9 @@ import LoadinSpinner_2 from '../components/loadingSpinner-2/loadingSpinner-2'
 import Link from 'next/link'
 import Model from './modelDialouge/model'
 import AlertDialogue from '../components/alert/alert'
+import { useAppDispatch, useAppSelector } from '@/Store/hooks/hooks'
+import { removeUser } from '@/Store/Slice/userSlice'
+import { useRouter } from 'next-nprogress-bar'
 
 
 type profileDataRes = {
@@ -24,11 +27,19 @@ type profileDataRes = {
 const ProfileComponent = () => {
 
     const user = useSearchParams().get('user')
+    const loggedInUser = useAppSelector(state => state.user).user
     const [profile, setProfile] = useState<profileDataRes>()
-    const [loading, setLoading] = useState<boolean>(false)
+    const [loading, setLoading] = useState<boolean>(true)
     const [model, setModel] = useState<any>(null)
     const [delteMessage, setDeletmessage] = useState<null | string>(null)
+    const deleteType = useRef<'recipe' | 'account'>()
     const deleteQuery = useRef({ id: '', public_id: '' })
+    const dispatch = useAppDispatch()
+    const router = useRouter()
+
+
+
+
 
     const fetchProfiledata = async () => {
         try {
@@ -42,30 +53,53 @@ const ProfileComponent = () => {
         }
     }
 
+
+
     useEffect(() => {
         fetchProfiledata()
     }, [])
 
 
+
+    //when click on post
     const onPost = (index: number) => {
         setModel(profile?.userProfileData[index])
     }
 
+
+
     const onDelete = (ID: string, PUBLIC_ID: string) => {
         deleteQuery.current.id = ID; // taking id of selected recipe which have to delete
         deleteQuery.current.public_id = PUBLIC_ID
-        setDeletmessage('Are you sure you want to delete this recipe?')
+        deleteType.current = 'recipe'
+        setDeletmessage('Are you sure to delete this recipe?')
         setModel(null)
     }
+
+
+    const onDeactivate = () => {
+        setDeletmessage('Are you really sure to deactivate your account?')
+        deleteType.current = 'account'
+    }
+
 
     const onOk = async () => {
         try {
 
-            const res = await axios.delete(`/API/deleteRecipe?id=${deleteQuery.current.id}&p_id=${deleteQuery.current.public_id}`)
-            setDeletmessage(null)
-            fetchProfiledata();
-            toast.success(res.data.message)
+            if (deleteType.current === 'recipe') {
+                const res = await axios.delete(`/API/deleteRecipe?id=${deleteQuery.current.id}&p_id=${deleteQuery.current.public_id}`)
+                fetchProfiledata();
+                toast.success(res.data.message)
+            }
 
+            if (deleteType.current === 'account') {
+                const res = await axios.post('/API/Account/deactivateAccount', { username: user });
+                dispatch(removeUser())
+                toast.success(res.data.message)
+                router.push('/')
+            }
+
+            setDeletmessage(null)
         } catch (error: any) {
             toast.error(error.response.data.message)
         }
@@ -74,7 +108,7 @@ const ProfileComponent = () => {
 
     return (
         <>
-            <div className="container">
+            <div className="container" style={{ minHeight: '78vh' }}>
                 <div className="row justify-content-center gap-5 ">
                     <div className="col-md-10 text-center mt-5">
 
@@ -96,19 +130,21 @@ const ProfileComponent = () => {
 
                         {/* Responsible for showing POSTS */}
 
-                        <div className={`${style.post_container} mb-5`}>
+                        {!loading &&
+                            <div className={`${style.post_container} mb-5`}>
 
 
-                            {(profile?.userProfileData.length! > 0) && profile?.userProfileData.map((elem, index) => {
-                                return (
-                                    <div key={index}>
-                                        <img src={elem.RecipeImage.url} alt='' onClick={() => { onPost(index) }} />
-                                        <p className='fw-bold'>{elem.Name}</p>
-                                    </div>
-                                )
-                            })}
+                                {(profile?.userProfileData.length! > 0) && profile?.userProfileData.map((elem, index) => {
+                                    return (
+                                        <div key={index}>
+                                            <img src={elem.RecipeImage.url} alt='' onClick={() => { onPost(index) }} />
+                                            <p className='fw-bold'>{elem.Name}</p>
+                                        </div>
+                                    )
+                                })}
 
-                        </div>
+                            </div>
+                        }
 
 
                         {/* Responsible for showing Info if no posts.*/}
@@ -131,15 +167,31 @@ const ProfileComponent = () => {
                             </div>
                         }
 
+
                         {/* Responsible for showing LOADING */}
 
                         {loading &&
-                            <div className='d-flex justify-content-center py-5'>
+                            <div className='d-flex justify-content-center py-5' style={{ minHeight: '40vh' }}>
                                 <LoadinSpinner_2 />
                             </div>
                         }
 
                     </div>
+
+
+                    {/* Responsoble for showing links */}
+
+                    {user === loggedInUser?.userName &&
+                        <div className={style.links}>
+                            <hr />
+                            <div className="p-3">
+                                <Link href={`/auth/changePassword?user=${user}`} className=' link-danger fw-bold text-decoration-none'>Change Password</Link>
+                                <span className='mx-2'>|</span>
+                                <a className=' link-danger fw-bold text-decoration-none' onClick={onDeactivate}>Deactivate Account</a>
+                            </div>
+                        </div>
+                    }
+
                 </div>
             </div>
 

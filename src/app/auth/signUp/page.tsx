@@ -28,12 +28,12 @@ const SignupComponent = () => {
             const Response = await axios.post('../API/Account/signUp', user)
             toast.success(Response.data.message)
             setLoading(false)
-           router.push('/auth/logIn')
+            router.push('/auth/logIn')
 
         } catch (error: any) {
             setLoading(false)
             toast.error(error.response.data.message)
- 
+
         }
     }
 
@@ -49,7 +49,7 @@ const SignupComponent = () => {
 
                 <div className="row justify-content-center align-items-center" style={{ minHeight: '90vh' }}>
 
-                    <div className={`${style.form} pt-4 pb-3 px-3`}>
+                    <div className={`${style.form} py-4 px-3`}>
 
                         <section className='text-center'>
                             <p className='fs-3 fw-bolder'>Sign Up</p>
@@ -63,7 +63,7 @@ const SignupComponent = () => {
 
                             <label htmlFor="username">Username</label>
 
-                            <input type="text" id="username" className="form-control" placeholder="Enter your name"
+                            <input type="text" id="username" className="form-control" placeholder="username"
 
                                 {
                                 ...register('username',
@@ -117,11 +117,6 @@ const SignupComponent = () => {
                         </div>
 
 
-
-
-                        <br />
-
-
                         {/* submit button  */}
                         <button type="submit" className="btn btn-success w-100">
                             {loading ? <div className="spinner-border spinner-border-sm text-light" role="status">
@@ -136,7 +131,7 @@ const SignupComponent = () => {
                         {/* switch log mode  */}
                         <div className="mt-3 text-center">
 
-                            <Link className="text-decoration-none text-dark" href="/auth/logIn">Go to <span className=' fw-bolder text-primary'>Log In</span></Link>
+                            <Link className="text-decoration-none text-dark" href="/auth/logIn">Already have an account visit <span className=' fw-bolder text-primary ms-1'>Log In</span></Link>
 
                         </div>
 

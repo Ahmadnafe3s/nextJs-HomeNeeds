@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import LoadingSpinner from "../components/loadingSpinner/loadingSpinner";
 import AlertDialogue from "../components/alert/alert";
 import toast from "react-hot-toast";
+import Footer from "../footer/footer";
 
 const ShoppingListComponent = () => {
 
@@ -113,7 +114,7 @@ const ShoppingListComponent = () => {
 
                         <br />
 
-                        <div className='table-responsive mb-5'>
+                        <div className='table-responsive mb-5' style={{ minHeight: '38vh' }}>
                             <table className={`${styles.Table} table table-hover text-center`}>
                                 <thead className='table-dark'>
                                     <tr>
@@ -150,23 +151,27 @@ const ShoppingListComponent = () => {
 
                 {shoppingList?.length < 1
                     &&
-                    <section className={`${styles.info_window} mx-auto`}>
-                        <div className={`${styles.add_cart_icon} mt-4`}>
-                            <i className='bx bxs-cart-add'></i>
-                        </div>
-                        <p className={`${styles.info_heading} mt-5`}>Empty Shopping List</p>
-                        <p className={`${styles.info_details} mt-3 mb-5`}>
-                            Your shopping list seems empty. please click the button to add Ingredients to list.
-                        </p>
-                        <div className='mt-4'>
-                            <button type='button' onClick={onAddMore} className={styles.add_ingredient_btn}>
-                                Add Ingredients
-                            </button>
-                        </div>
-                    </section>
+                    <div className={styles.alert_Container}>
+                        <section className={`${styles.info_window}`}>
+                            <div className={`${styles.add_cart_icon} mt-4`}>
+                                <i className='bx bxs-cart-add'></i>
+                            </div>
+                            <p className={`${styles.info_heading} mt-5`}>Empty Shopping List</p>
+                            <p className={`${styles.info_details} mt-3 mb-5`}>
+                                Your shopping list seems empty. please click the button to add Ingredients to list.
+                            </p>
+                            <div className='mt-4'>
+                                <button type='button' onClick={onAddMore} className={styles.add_ingredient_btn}>
+                                    Add Ingredients
+                                </button>
+                            </div>
+                        </section>
+                    </div>
 
                 }
             </div>
+
+            <Footer />
         </>
     )
 }

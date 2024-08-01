@@ -62,7 +62,7 @@ const CategoryComponent = () => {
                     {(resData?.Recipe_List.length! > 0) &&
                         resData?.Recipe_List.map((recipes, index) => {
                             return (
-                                <RecipeCard Name={recipes.Name} Description={recipes.Description} ID={recipes._id} Image={recipes.RecipeImage.URL} key={index} />
+                                <RecipeCard Name={recipes.Name} Description={recipes.Description} ID={recipes._id} Image={recipes.RecipeImage.url} key={index} />
                             )
                         })
                     }

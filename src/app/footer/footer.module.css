@@ -1,0 +1,14 @@
+.container {
+    padding: 20px;
+}
+
+.container p {
+    color: grey;
+    text-align: center;
+    font-size: 15px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.container a {
+    text-decoration: none;
+}

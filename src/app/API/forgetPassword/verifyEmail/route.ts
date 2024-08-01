@@ -12,9 +12,6 @@ export const POST = async (req: NextRequest) => {
 
         const DATA = await req.json()
 
-        console.log(DATA);
-
-
         const user = await users.findOne({ $or: [{ email: DATA.email_or_username }, { username: DATA.email_or_username }] })
 
         if (!user) {

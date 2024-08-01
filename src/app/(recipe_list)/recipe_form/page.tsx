@@ -105,7 +105,7 @@ const RecipeForm = () => {
             toast.success(Response.data.message)
 
             setLoading(false)
-            reset()
+            onReset()
 
         } catch (error: any) {
 
@@ -133,9 +133,8 @@ const RecipeForm = () => {
             const Response = await axios.put(`/API/updateRecipe/${ID.current}`, formData)
 
             toast.success(Response.data.message)
-
             setLoading(false)
-            reset()
+            onReset()
         } catch (error: any) {
             toast.error(error.response.data.message)
             setLoading(false)

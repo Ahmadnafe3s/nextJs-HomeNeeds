@@ -21,7 +21,7 @@ const logInComponent = () => {
         password: string | number
     }
 
-    const { register, handleSubmit, formState: { errors },} = useForm<Inputs>()
+    const { register, handleSubmit, formState: { errors }, } = useForm<Inputs>()
 
     const onSubmit = async (data: Inputs) => {
 
@@ -122,15 +122,15 @@ const logInComponent = () => {
                             }
                         </button>
 
-
                         {/* switch log mode  */}
                         <div className="mt-3 text-center">
 
-                            <Link href="/auth/signUp" className='text-decoration-none text-dark'>Go to <span className='text-primary fw-bolder'>Sign Up</span></Link>
+                            <Link href="/auth/signUp" className='text-decoration-none text-secondary'>Don't have account visit <span className='text-primary fw-bolder ms-1'> Sign Up</span></Link>
 
                         </div>
 
                     </div>
+
                 </div>
             </form>
         </>

@@ -10,6 +10,7 @@ import Banner from '../../../components/recipe_components/banner'
 import { banner_heading } from '../../../../../public/fonts/fonts'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
+import Footer from '@/app/footer/footer'
 
 
 const RecipeDetails = ({ params }: any) => {
@@ -72,14 +73,17 @@ const RecipeDetails = ({ params }: any) => {
                     {details ?
                         <div className=" col-12 col-md-10 mt-5">
                             <div>
-                                <p className={`display-5 fw-bold text-center ${banner_heading.className}`} style={{ letterSpacing: '5px' }}>{details?.Name}</p>
-                                <div className='d-flex align-items-center'>
+                                <p className={`display-5 fw-bold text-center mb-5 ${banner_heading.className}`} style={{ letterSpacing: '5px' }}>{details?.Name}</p>
 
-                                    <i className='bx bx-user-circle fs-2'></i>
+                                <div className="d-flex justify-content-between">
+                                    <div className='d-flex align-items-center'>
 
-                                    <Link href={`/profile?user=${details.FID}`} className=' text-decoration-none fw-bold ms-1'>{details.FID}</Link> {/* username */}
+                                        <i className='bx bx-user-circle fs-2 link-primary'></i>
+
+                                        <Link href={`/profile?user=${details.FID}`} className=' text-decoration-none fw-bold ms-1'>{details.FID}</Link> {/* username */}
+                                    </div>
+                                    <p className='my-2'>Category | <span className='fw-bold text-bg-success badge rounded-end-pill'>{details?.Category}</span></p>
                                 </div>
-                                <p className='my-2'>Category | <span className='fw-bold text-bg-success badge rounded-end-pill'>{details?.Category}</span></p>
 
                             </div>
 
@@ -147,6 +151,8 @@ const RecipeDetails = ({ params }: any) => {
                     }
                 </div>
             </div>
+
+            <Footer />
 
         </>
     )

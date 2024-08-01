@@ -51,6 +51,7 @@ const ForgetPasswordComponent = () => {
             SECRET.current = response.data.secret
             toast.success(response.data.message);
             setStep('otp');
+            countDownOTPexpiration()
             setLoading(false)
 
         } catch (error: any) {
@@ -69,13 +70,11 @@ const ForgetPasswordComponent = () => {
         try {
 
             setLoading(true)
-            // const response = await axios.post('/API/forgetPassword/verifyOTP', { secret: SECRET.current, OTP: data.otp })
+            const response = await axios.post('/API/forgetPassword/verifyOTP', { secret: SECRET.current, OTP: data.otp })
 
-            // setStep('password')
+            setStep('password')
 
-            countDownOTPexpiration()
-
-            // toast.success(response.data.message)
+            toast.success(response.data.message)
             setLoading(false)
 
         } catch (error: any) {
@@ -126,7 +125,7 @@ const ForgetPasswordComponent = () => {
         <form className="container-fluid" onSubmit={handleSubmit(handleFormSubmit)}>
 
             <div className="row justify-content-center align-items-center" style={{ minHeight: '90vh' }}>
-                <div className={`pt-4 pb-3 px-3 ${style.form}`}>
+                <div className={`py-4 px-3 ${style.form}`}>
                     <section className='text-center'>
                         <p className='fs-3 fw-bolder'>Reset Password</p>
                         <p className='text-secondary'>Enter your credentials carefully and correctly to reset your password successfully.</p>
