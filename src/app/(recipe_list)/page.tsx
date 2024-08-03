@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import Link from 'next/link'
 import Banner from '../components/recipe_components/banner'
 import axios from 'axios'
@@ -119,8 +119,13 @@ const RecipesComponent = () => {
   )
 }
 
-export default RecipesComponent
 
-function setData(data: { Recipe_List: recipesListResponseType[]; total_items: number }) {
-  throw new Error('Function not implemented.')
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <RecipesComponent />
+    </Suspense>
+  );
 }
+
+
