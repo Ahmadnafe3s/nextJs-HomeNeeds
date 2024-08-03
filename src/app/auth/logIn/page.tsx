@@ -125,7 +125,7 @@ const LogInComponent = () => {
                         {/* switch log mode  */}
                         <div className="mt-3 text-center">
 
-                            <Link href="/auth/signUp" className='text-decoration-none text-secondary'>Don't have account visit <span className='text-primary fw-bolder ms-1'> Sign Up</span></Link>
+                            <Link href="/auth/signUp" className='text-decoration-none text-secondary'>Don&apos;t have account visit <span className='text-primary fw-bolder ms-1'> Sign Up</span></Link>
 
                         </div>
 
