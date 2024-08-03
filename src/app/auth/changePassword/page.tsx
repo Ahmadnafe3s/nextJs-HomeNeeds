@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import style from '../auth.module.css'
 import { useSearchParams } from 'next/navigation';
@@ -100,4 +100,12 @@ const ChangePassword = () => {
     )
 }
 
-export default ChangePassword
+
+
+export default function Page() {
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        <ChangePassword />
+      </Suspense>
+    );
+  }

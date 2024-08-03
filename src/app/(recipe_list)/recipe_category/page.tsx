@@ -1,6 +1,6 @@
 "use client"
 import { useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, Suspense } from 'react'
 import { recipesListResponseType } from '../Types/recipeType'
 import axios from 'axios'
 import toast from 'react-hot-toast'
@@ -32,33 +32,25 @@ const CategoryComponent = () => {
 
     }
 
-
     useEffect(() => {
         fetchSearchedList()
     }, [params])
 
     return (
         <>
-
             <br />
             <div className='mt-5 px-4 text-center'>
                 <p className="display-3 fw-bold">Category list for <span style={{ color: 'green' }}>{params}</span></p>
-                <p >Showing category list for {params} - A variety of delicious recipes, that you can use to cook delicious foods which will love by everyone.</p>
+                <p>Showing category list for {params} - A variety of delicious recipes, that you can use to cook delicious foods which will love by everyone.</p>
             </div>
-
 
             {/* Category buttons */}
             <CategoryButton />
 
-
-            {/*   Conatiner */}
-
+            {/* Container */}
             <div className="container mt-md-5 mt-3 py-3">
-
                 <div className="row justify-content-center gap-5">
-
-                    {/* Responsible for showing recipe list... */}
-
+                    {/* Responsible for showing recipe list */}
                     {(resData?.Recipe_List.length! > 0) &&
                         resData?.Recipe_List.map((recipes, index) => {
                             return (
@@ -67,36 +59,36 @@ const CategoryComponent = () => {
                         })
                     }
 
-
-                    {/* Responsible for showing not found error ... */}
-
+                    {/* Responsible for showing not found error */}
                     {
                         (resData?.Recipe_List.length! < 1 && !loading) &&
-                        <div className="col-md-9 col-11 rounded-4 py-5 px-2  text-center my-3 d-grid align-items-center" style={{ border: '4px dotted black', minHeight: '50vh' }}>
+                        <div className="col-md-9 col-11 rounded-4 py-5 px-2 text-center my-3 d-grid align-items-center" style={{ border: '4px dotted black', minHeight: '50vh' }}>
                             <i className='bx bx-error-alt display-2'></i>
                             <p className="display-5 fw-bold">
-                                The category you are tryig to see is Not found.
+                                The category you are trying to see is not found.
                             </p>
                             <p>
-                                You can check another categories.
+                                You can check other categories.
                             </p>
                         </div>
                     }
 
-
                     {/* Loader */}
-
                     {loading &&
                         <div className='d-grid justify-content-center align-items-center' style={{ minHeight: '50vh' }}>
                             <LoadinSpinner_2 />
                         </div>
                     }
-
                 </div>
             </div>
-
         </>
     )
 }
 
-export default CategoryComponent
+export default function Page() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <CategoryComponent />
+        </Suspense>
+    );
+}

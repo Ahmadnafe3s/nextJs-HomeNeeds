@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { heading_font } from '../../../../public/fonts/fonts'
 import { recipesListResponseType, recipeType } from '../Types/recipeType'
@@ -466,4 +466,10 @@ const RecipeForm = () => {
 
 
 
-export default RecipeForm
+export default function Page() {
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        <RecipeForm />
+      </Suspense>
+    );
+  }

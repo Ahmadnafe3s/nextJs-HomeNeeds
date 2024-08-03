@@ -1,7 +1,7 @@
 "use client"
 
 import axios from 'axios'
-import { RevealList, RevealWrapper } from 'next-reveal'
+import { RevealList } from 'next-reveal'
 import React, { useEffect, useRef, useState } from 'react'
 import style from '../../recipe_list.module.css'
 import { recipesListResponseType } from '../../Types/recipeType'

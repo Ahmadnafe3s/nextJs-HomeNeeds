@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
 import style from './profile.module.css'
 import { useSearchParams } from 'next/navigation'
 import axios from 'axios'
@@ -213,4 +213,12 @@ const ProfileComponent = () => {
     )
 }
 
-export default ProfileComponent
+
+
+export default function Page() {
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        <ProfileComponent />
+      </Suspense>
+    );
+  }

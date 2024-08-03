@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { shopping_list_type } from '../listType'
 import { heading_font } from '../../../../public/fonts/fonts'
@@ -126,4 +126,12 @@ const ShppingListForm = () => {
     )
 }
 
-export default ShppingListForm
+
+
+export default function Page() {
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+       <ShppingListForm />
+      </Suspense>
+    );
+  }

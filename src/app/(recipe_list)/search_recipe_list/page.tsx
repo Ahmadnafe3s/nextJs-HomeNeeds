@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import RecipeCard from '../../components/recipe_components/card'
 import axios from 'axios'
 import { useSearchParams } from 'next/navigation'
@@ -99,4 +99,12 @@ const SearchComponent = () => {
   )
 }
 
-export default SearchComponent
+
+// this is used when we use useSearchparam hook that rely on client-side state to handle the potential delay in rendering
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SearchComponent />
+    </Suspense>
+  );
+}
