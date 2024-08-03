@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next-nprogress-bar'
 import style from '../auth.module.css'
-import LoadinSpinner_2 from '@/app/components/loadingSpinner-2/loadingSpinner-2'
 
 const LogInComponent = () => {
 
@@ -32,7 +31,6 @@ const LogInComponent = () => {
             toast.success(Response.data.message)
 
             const user = {
-                UID: Response.data.UID,
                 userName: Response.data.userName,
                 email: Response.data.email,
             }
