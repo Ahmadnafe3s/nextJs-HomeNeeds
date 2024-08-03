@@ -1,51 +1,38 @@
 "use client"
-import { use, useEffect, useRef, useState } from 'react'
+import { useState, useRef } from 'react'
 import style from './navbar.module.css'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { logo_font } from '../../../public/fonts/fonts'
 import { useAppSelector, useAppDispatch } from '@/Store/hooks/hooks'
-import React from 'react'
 import { removeUser } from '@/Store/Slice/userSlice'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import AlertDialogue from '../components/alert/alert'
 
-export type userType = {
-  userName: string,
-  email: string
-}
-
 const Navbar = () => {
 
   // hooks
   const [isNavOpend, setNavOpen] = useState<boolean>(false)
-  const [user, setUser] = useState<userType | null>(null)
+  const [logout, setLogout] = useState({ message: '', status: false })
 
   const isChecked = useRef<any>()
   const path = usePathname()
   const Dispatch = useAppDispatch()
   const router = useRouter()
-  const [logout, setLogout] = useState({ message: '', status: false })
 
-  const userData = useAppSelector((state) => state.user).user // will call each re-render . hooks cant call in another hooks or any functions body except root function.
-
-  useEffect(() => {
-    setUser(userData) // should setUser data once while loading comp and while state changing of dependeble var.
-  }, [userData])      // done this to migrate hydration error
-
+  // Directly using userData from useAppSelector
+  const userData = useAppSelector((state) => state.user).user
 
   const onNavigate = () => {
     setNavOpen(false)
     isChecked.current.checked = false
   }
 
-
   const onLogout = async () => {
     setLogout({ message: 'Are you sure to logout from your account.', status: true })
   }
-
 
   const onOk = async () => {
     try {
@@ -56,21 +43,15 @@ const Navbar = () => {
       router.push('/')
 
     } catch (err: any) {
-
-      toast.error(err.response.date.message)
-
+      toast.error(err.response.data.message)
     }
 
     setLogout({ message: '', status: false })
   }
 
-
-
   const onHamburger = () => {
     setNavOpen(!isNavOpend)
   }
-
-
 
   return (
     <>
@@ -87,35 +68,32 @@ const Navbar = () => {
           </label>
         </div>
 
-
-
         <nav className={`${style.navBar} ${isNavOpend && style.navOpen}`}>
-
 
           <ul className={style.nav_links}>
 
             {/* On mobile username and logo */}
 
-            {user &&
+            {userData &&
               <>
                 <li className='d-flex align-items-center text-start gap-2 d-md-none'>
 
                   <div className={style.profile_logo}>
-                    <p>{user.userName.charAt(0)}</p>
+                    <p>{userData.userName.charAt(0)}</p>
                   </div>
 
                   <div>
 
                     <Link
-                      href={`/profile?user=${user.userName}`}
+                      href={`/profile?user=${userData.userName}`}
                       className='mt-1 fw-bold text-decoration-none display-5 link-dark'
                       onClick={onNavigate}
                     >
-                      {user?.userName}
+                      {userData?.userName}
                     </Link>
 
                     <p>
-                      {user?.email}
+                      {userData?.email}
                     </p>
 
                   </div>
@@ -125,14 +103,11 @@ const Navbar = () => {
               </>
             }
 
-
             {/* recipe list home */}
 
             <li className="nav-item">
               <Link href="/" className={`${style.links} ${path === '/' && style.navActive}`} onClick={onNavigate}>Recipie List</Link>
             </li >
-
-
 
             {/* Shopping List */}
 
@@ -140,10 +115,9 @@ const Navbar = () => {
               <Link href="/shopping_list" className={`${style.links} ${path === '/shopping_list' && style.navActive}`} onClick={onNavigate}>Shopping List</Link>
             </li >
 
-
             {/* add recipes on mobile */}
 
-            {user &&
+            {userData &&
               <li className='nav-item d-md-none'>
                 <Link href="recipe_form" className={`${style.links} ${path === '/recipe_form' && style.navActive}`} onClick={onNavigate}>Post Recipe</Link>
               </li>
@@ -151,25 +125,22 @@ const Navbar = () => {
 
             {/* logout on mobile*/}
 
-            {user &&
+            {userData &&
               <li className="nav-item d-md-none">
                 <hr />
                 <a className={`${style.links} link-danger`} onClick={onLogout}> Logout </a >
               </li >
             }
 
-
-            {!user && <li className="nav-item">
+            {!userData && <li className="nav-item">
               <hr className=' d-md-none' />
               <Link href="/auth/logIn" className={`${style.links} text-center text-white px-md-4`} style={{ background: 'rgb(0, 202, 0)' }} onClick={onNavigate}>Log In / Sign Up</Link>
             </li >
             }
 
-
-
             {/* Dropdown  */}
 
-            {user && <li className="navbar-nav d-none d-md-block">
+            {userData && <li className="navbar-nav d-none d-md-block">
 
               <div className="nav-item dropdown">
 
@@ -177,19 +148,16 @@ const Navbar = () => {
 
                 <a className="nav-link dropdown-toggle d-flex align-items-center" role="button" data-bs-toggle="dropdown"
                   aria-expanded="false">
-                  <i className='bx bx-user-circle mx-1 fs-3'></i> <span style={{ fontWeight: 600 }}>{user.userName}</span>
+                  <i className='bx bx-user-circle mx-1 fs-3'></i> <span style={{ fontWeight: 600 }}>{userData.userName}</span>
                 </a>
 
-
                 <ul className=" dropdown-menu rounded-4 " style={{ width: 250 }}>
-
 
                   {/* profile */}
 
                   <li className='my-4'>
-                    <Link href={`/profile?user=${user.userName}`} className={`${style.links}`} onClick={onNavigate}>Profile</Link>
+                    <Link href={`/profile?user=${userData.userName}`} className={`${style.links}`} onClick={onNavigate}>Profile</Link>
                   </li>
-
 
                   {/* add recipes  */}
 

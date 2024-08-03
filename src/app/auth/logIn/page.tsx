@@ -9,16 +9,18 @@ import toast from 'react-hot-toast'
 import { useRouter } from 'next-nprogress-bar'
 import style from '../auth.module.css'
 
+
+type Inputs = {
+    email_or_username: string,
+    password: string | number
+}
+
 const LogInComponent = () => {
 
     const dispatchUser = useAppDispatch()
     const [loading, setLoading] = useState<boolean>(false)
     const router = useRouter()
 
-    type Inputs = {
-        email_or_username: string,
-        password: string | number
-    }
 
     const { register, handleSubmit, formState: { errors }, } = useForm<Inputs>()
 
