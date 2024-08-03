@@ -1,7 +1,4 @@
 "use client"
-
-import style from './recipe_list.module.css'
-import { RevealList } from 'next-reveal'
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Banner from '../components/recipe_components/banner'
