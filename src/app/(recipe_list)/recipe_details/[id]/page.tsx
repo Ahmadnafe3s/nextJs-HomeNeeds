@@ -78,9 +78,9 @@ const RecipeDetails = ({ params }: any) => {
                                 <div className="d-flex justify-content-between">
                                     <div className='d-flex align-items-center'>
 
-                                        <i className='bx bx-user-circle fs-2 link-primary'></i>
+                                        <i className='bx bx-user-circle fs-2'></i>
 
-                                        <Link href={`/profile?user=${details.FID}`} className=' text-decoration-none fw-bold ms-1'>{details.FID}</Link> {/* username */}
+                                        <Link href={`/profile?user=${details.FID}`} className=' text-decoration-none link-dark fw-bold ms-1'>{details.FID}</Link> {/* username */}
                                     </div>
                                     <p className='my-2'>Category | <span className='fw-bold text-bg-success badge rounded-end-pill'>{details?.Category}</span></p>
                                 </div>
@@ -103,7 +103,7 @@ const RecipeDetails = ({ params }: any) => {
                                 return (
                                     <div key={index} className='mb-4'>
                                         <p className='fs-5 fw-bold mt-3'>{elem.heading}</p>
-                                        <p>{elem.text?.replaceAll(/\n/g, '\n\n' + ' ')}</p>
+                                        <p style={{ whiteSpace: 'pre-line' }}>{elem.text}</p>
                                     </div>
                                 )
                             })}

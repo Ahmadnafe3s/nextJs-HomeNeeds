@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import { ResetPasswordHTML, verifyEmailHTML } from './HTMLFiles';
+import { verifyEmailHTML, ResetPasswordHTML } from './htmlFiles';
 
 const Transporter = nodemailer.createTransport({
     service: 'gmail',
