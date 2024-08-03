@@ -5,16 +5,13 @@ export const POST = async (req: NextRequest) => {
 
     try {
 
-        const DATA = await req.json()
-
-        console.log(DATA);
-
+        const {OTP , secret} = await req.json()
 
         const isOTPverified = speakeasy.totp.verify({
-            secret: DATA.secret,
+            secret: secret,
             encoding: "base32",
             window: 2,
-            token: DATA.OTP,
+            token: OTP,
             step: 300
         })
 

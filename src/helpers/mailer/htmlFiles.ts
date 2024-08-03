@@ -1,7 +1,7 @@
 
-export const verifyEmailHTML =
-    `
-<!DOCTYPE html>
+export const verifyEmailHTML = (OTP: string) => {
+    return `
+    <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -21,7 +21,7 @@ export const verifyEmailHTML =
         }
 
         h1 {
-            font-size: clamp(38px , 3vw , 60px)
+            font-size: clamp(38px, 3vw, 60px)
         }
 
         .container {
@@ -52,23 +52,28 @@ export const verifyEmailHTML =
 <body>
     <div class="container">
         <section>
-            <h1 style="color : black"><span style="color: green;">H</span>ome <span style="color: green;">N</span>eeds</h1>
+            <h1 style="color : black"><span style="color: green;">H</span>ome <span style="color: green;">N</span>eeds
+            </h1>
 
-            <div class="heading">Verify Email</div>
+            <div class="heading">Your email verification OTP is .</div>
 
-            <p style="color: grey;">Thank you for registering with us. Please click the button below to verify your
+            <h1>
+                ${OTP}
+            </h1>
+
+            <p style="color: grey;">This One Time Password is only Valid for 5 minutes do not share it with anyone.</p>
+
+            <p style="color: grey;">Thank you for registering with us. Please copy the above code to verify your
                 email address.</p>
             <br>
-            <div>
-                <a href="URL_TO_VERIFY_EMAIL" class="verify-button">Verify Email</a>
-            </div>
+
         </section>
     </div>
 </body>
 
 </html>
-
-`
+    `
+}
 
 
 

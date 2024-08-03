@@ -1,8 +1,8 @@
 import connect from "@/dbConfig/dbConfig"
 import user from "@/model/userSchema"
 import { NextRequest, NextResponse } from "next/server";
-import mailer from "@/helpers/mailer/nodeMailer";
 import bcryptjs from "bcryptjs"
+import speakeasy from 'speakeasy'
 
 connect();
 
@@ -11,30 +11,29 @@ export async function POST(req: NextRequest) {
 
     try {
 
-        const { username, email, password } = await req.json()
+        const { username, email, password, OTP, secret } = await req.json()
 
-
-        const isUser = await user.findOne({ email: email })
-        const isUsername = await user.findOne({ username: username })
-
-
-        if (isUsername) {
-            return NextResponse.json({
-                message: "username is already in use",
-            }, { status: 400 })
-        }
-
-
-        if (isUser) {
-            return NextResponse.json({
-                message: "email already exists",
-            }, { status: 400 })
-        }
 
 
         const salt = await bcryptjs.genSalt(10)
 
         const hashedPassword = await bcryptjs.hash(password, salt)
+
+
+        const isOTPverified = speakeasy.totp.verify({
+            secret: secret,
+            encoding: "base32",
+            window: 2,
+            token: OTP,
+            step: 300
+        })
+
+
+        if (!isOTPverified) {
+            return NextResponse.json({
+                message: 'Invalid OTP!'
+            }, { status: 400 })
+        }
 
 
         const User = new user(
@@ -47,9 +46,7 @@ export async function POST(req: NextRequest) {
 
         await User.save()
 
-
-        await mailer(email, "Verify Email")
-
+        
         return NextResponse.json({
             message: "User created successfully",
         })

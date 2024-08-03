@@ -9,10 +9,10 @@ connect();
 export const POST = async (req: NextRequest) => {
     try {
 
-        const data = await req.json()
+        const { username } = await req.json()
 
-        await users.deleteOne({ username: data.username })
-        await recipes.deleteMany({ FID: data.username })
+        await users.deleteOne({ username: username })
+        await recipes.deleteMany({ FID: username })
 
         const response = NextResponse.json({
             message: 'Account Deactivated.'

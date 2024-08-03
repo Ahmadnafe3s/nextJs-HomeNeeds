@@ -10,9 +10,7 @@ const Transporter = nodemailer.createTransport({
 });
 
 
-export default async function mailer(recipientEmail: string, Subject: string, Content?: { OTP: string, username: string }) {
-
-
+export default async function mailer(recipientEmail: string, Subject: string, Content: { OTP: string, username?: string }) {
 
     try {
 
@@ -20,7 +18,7 @@ export default async function mailer(recipientEmail: string, Subject: string, Co
             from: process.env.EMAIL,
             to: recipientEmail,
             subject: Subject,
-            html: Subject === 'Reset Password' ? ResetPasswordHTML(Content?.OTP!, Content?.username!) : verifyEmailHTML
+            html: Subject === 'Reset Password' ? ResetPasswordHTML(Content?.OTP!, Content?.username!) : verifyEmailHTML(Content.OTP)
         }
 
         await Transporter.sendMail(mailOption)

@@ -10,9 +10,9 @@ export const POST = async (req: NextRequest) => {
 
     try {
 
-        const DATA = await req.json()
+        const {email_or_username} = await req.json()
 
-        const user = await users.findOne({ $or: [{ email: DATA.email_or_username }, { username: DATA.email_or_username }] })
+        const user = await users.findOne({ $or: [{ email: email_or_username }, { username: email_or_username }] })
 
         if (!user) {
             return NextResponse.json({
