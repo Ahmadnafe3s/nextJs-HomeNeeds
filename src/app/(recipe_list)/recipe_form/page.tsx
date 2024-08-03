@@ -391,7 +391,7 @@ const RecipeForm = () => {
                                                     {...register(`Ingredients.${index}.Ingredient`,
                                                         {
                                                             required: { value: true, message: 'Required Field!' },
-                                                            maxLength: { value: 15, message: 'Max length 10' },
+                                                            maxLength: { value: 15, message: 'Max length 15' },
                                                         })} />
 
                                                 <p className="text-secondary">{errors.Ingredients?.[index]?.Ingredient?.message}</p>
@@ -410,7 +410,7 @@ const RecipeForm = () => {
                                                     {...register(`Ingredients.${index}.Amount`,
                                                         {
                                                             required: { value: true, message: 'Required Field!' },
-                                                            maxLength: { value: 12, message: 'Max length 12' },
+                                                            maxLength: { value: 15, message: 'Max length 15' },
                                                         })} />
 
                                                 <p className="text-secondary">{errors.Ingredients?.[index]?.Amount?.message}</p>
