@@ -7,7 +7,7 @@ import { heading_font } from '../../../../public/fonts/fonts'
 import { useSearchParams } from 'next/navigation'
 import toast from 'react-hot-toast'
 
-const page = () => {
+const ShppingListForm = () => {
 
     const params = useSearchParams()
     const { register, handleSubmit, formState: { errors }, reset, setValue } = useForm<shopping_list_type>()
@@ -126,4 +126,4 @@ const page = () => {
     )
 }
 
-export default page
+export default ShppingListForm
