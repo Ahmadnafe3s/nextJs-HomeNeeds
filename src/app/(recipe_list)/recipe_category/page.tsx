@@ -42,8 +42,8 @@ const CategoryComponent = () => {
 
             <br />
             <div className='mt-5 px-4 text-center'>
-                <p className="display-3 fw-bold">Category list for "<span style={{ color: 'green' }}>{params}</span>"</p>
-                <p >Showing category list for "{params}" - A variety of delicious recipes, that you can use to cook delicious foods which will love by everyone.</p>
+                <p className="display-3 fw-bold">Category list for <span style={{ color: 'green' }}>{params}</span></p>
+                <p >Showing category list for {params} - A variety of delicious recipes, that you can use to cook delicious foods which will love by everyone.</p>
             </div>
 
 
