@@ -18,16 +18,7 @@ const RecipeDetails = ({ params }: any) => {
     const preventRecall = useRef<boolean>(false)
     const [details, setDetails] = useState<recipesListResponseType | null>(null)
 
-    const fetchRecipeDetails = async () => {
-        try {
 
-            const response = await axios.get<{ recipe_Details: recipesListResponseType }>(`/API/getRecipeDetails/${params.id}`)
-            setDetails(response.data.recipe_Details)
-
-        } catch (error: any) {
-            toast.error(error.response.data.message)
-        }
-    }
 
     useEffect(() => {
 
@@ -38,6 +29,17 @@ const RecipeDetails = ({ params }: any) => {
         preventRecall.current = true
 
     }, [])
+
+    const fetchRecipeDetails = async () => {
+        try {
+
+            const response = await axios.get<{ recipe_Details: recipesListResponseType }>(`/API/getRecipeDetails/${params.id}`)
+            setDetails(response.data.recipe_Details)
+
+        } catch (error: any) {
+            toast.error(error.response.data.message)
+        }
+    }
 
 
     const onSendToshoppingList = () => {

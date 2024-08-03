@@ -10,7 +10,7 @@ import { useRouter } from 'next-nprogress-bar'
 import style from '../auth.module.css'
 import LoadinSpinner_2 from '@/app/components/loadingSpinner-2/loadingSpinner-2'
 
-const logInComponent = () => {
+const LogInComponent = () => {
 
     const dispatchUser = useAppDispatch()
     const [loading, setLoading] = useState<boolean>(false)
@@ -137,4 +137,4 @@ const logInComponent = () => {
     )
 }
 
-export default logInComponent 
+export default LogInComponent 
