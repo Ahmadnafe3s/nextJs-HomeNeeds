@@ -8,14 +8,7 @@ export const GET = async (req: NextRequest) => {
       message: 'User logged out.'
     })
 
-    response.cookies.set('token', '',
-      {
-        expires: new Date(0),
-        secure : true,
-        httpOnly: true,
-        path: '/',
-        sameSite : 'lax',
-      })
+    response.cookies.delete('token')
 
     return response
 
