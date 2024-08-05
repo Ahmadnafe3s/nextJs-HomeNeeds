@@ -1,15 +1,14 @@
 /* for banner */
 
 .heading {
-  font-size: clamp(50px, 6vw, 150px);
-  font-family: var(--heading);
+  font-size: clamp(45px, 6vw, 150px);
   letter-spacing: 3px;
 }
 
 .title {
   color: gray;
   font-weight: 600;
-  font-size: clamp(18px, 3vw, 25px);
+  font-size: clamp(15px, 3vw, 25px);
 }
 
 .desc {

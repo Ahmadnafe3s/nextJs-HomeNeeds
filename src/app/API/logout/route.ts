@@ -2,20 +2,27 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
 
-    try {
+  try {
 
-      const response = NextResponse.json({
-        message : 'User logged out.'
+    const response = NextResponse.json({
+      message: 'User logged out.'
+    })
+
+    response.cookies.set('token', '',
+      {
+        expires: new Date(0),
+        secure : true,
+        httpOnly: true,
+        path: '/',
+        sameSite : 'lax',
       })
-      
-      response.cookies.set('token' , '' ,{expires : new Date(0) , httpOnly : true , path : '/'})
 
-      return response
+    return response
 
-    } catch (error) {
-        return NextResponse.json({
-            message: 'Something went wrong.'
-        })
-    }
+  } catch (error) {
+    return NextResponse.json({
+      message: 'Something went wrong.'
+    })
+  }
 
 }

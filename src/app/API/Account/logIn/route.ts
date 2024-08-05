@@ -44,7 +44,14 @@ export const POST = async (req: NextRequest) => {
             message: 'User logged in successfully!',
         })
 
-        Response.cookies.set('token', Token, { expires: new Date(Date.now() + 1000 * 86400), httpOnly: true , sameSite : 'lax'})
+        Response.cookies.set('token', Token,
+            {
+                expires: new Date(Date.now() + 1000 * 86400),
+                httpOnly: true,
+                secure: true,
+                sameSite: 'lax',
+                path: '/',
+            })
 
         return Response
 
