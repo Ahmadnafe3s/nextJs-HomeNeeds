@@ -3,7 +3,6 @@ import user from "@/model/userSchema";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from 'bcryptjs'
 import jwt from 'jsonwebtoken'
-import { GetServerSideProps } from "next";
 
 connect();
 
@@ -45,7 +44,7 @@ export const POST = async (req: NextRequest) => {
             message: 'User logged in successfully!',
         })
 
-        Response.cookies.set('token', Token, { expires: new Date(Date.now() + 1000 * 86400), httpOnly: true })
+        Response.cookies.set('token', Token, { expires: new Date(Date.now() + 1000 * 86400), httpOnly: true , sameSite : 'lax'})
 
         return Response
 

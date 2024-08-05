@@ -9,18 +9,18 @@
 .title {
   color: gray;
   font-weight: 600;
-  font-size: clamp(20px, 3vw, 25px);
+  font-size: clamp(18px, 3vw, 25px);
 }
 
 .desc {
   color: rgb(145, 145, 145);
-  font-size: clamp(15px, 3vw, 18px);
+  font-size: clamp(13px, 3vw, 18px);
 }
 
 
 .banner_img {
-  width: 230px;
-  height: 230px;
+  width: 220px;
+  height: 220px;
 }
 
 

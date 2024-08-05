@@ -8,7 +8,7 @@ export const GET = async (req: NextRequest) => {
         message : 'User logged out.'
       })
       
-      response.cookies.set('token' , '' ,{expires : new Date(0) , httpOnly : true})
+      response.cookies.set('token' , '' ,{expires : new Date(0) , httpOnly : true , path : '/'})
 
       return response
 

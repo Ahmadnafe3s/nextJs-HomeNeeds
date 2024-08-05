@@ -1,5 +1,5 @@
 "use client"
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import style from './navbar.module.css'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -21,9 +21,14 @@ const Navbar = () => {
   const path = usePathname()
   const Dispatch = useAppDispatch()
   const router = useRouter()
+  const [userData, setUserData] = useState<any>()
 
-  // Directly using userData from useAppSelector
-  const userData = useAppSelector((state) => state.user).user
+
+  const user = useAppSelector((state) => state.user).user
+
+  useEffect(() => {
+    setUserData(user)
+  }, [user])
 
   const onNavigate = () => {
     setNavOpen(false)
@@ -37,8 +42,8 @@ const Navbar = () => {
   const onOk = async () => {
     try {
       const response = await axios.get('/API/logout')
-      toast.success(response.data.message)
       Dispatch(removeUser())
+      toast.success(response.data.message)
       onNavigate()
       router.push('/')
 
@@ -119,7 +124,7 @@ const Navbar = () => {
 
             {userData &&
               <li className='nav-item d-md-none'>
-                <Link href="recipe_form" className={`${style.links} ${path === '/recipe_form' && style.navActive}`} onClick={onNavigate}>Post Recipe</Link>
+                <Link href="/recipe_form" className={`${style.links} ${path === '/recipe_form' && style.navActive}`} onClick={onNavigate}>Post Recipe</Link>
               </li>
             }
 
@@ -132,10 +137,14 @@ const Navbar = () => {
               </li >
             }
 
-            {!userData && <li className="nav-item">
-              <hr className=' d-md-none' />
-              <Link href="/auth/logIn" className={`${style.links} text-center text-white px-md-4`} style={{ background: 'rgb(0, 202, 0)' }} onClick={onNavigate}>Log In / Sign Up</Link>
-            </li >
+
+            {/* Log in / Sign Up button */}
+
+            {!userData &&
+              <li className="nav-item">
+                <hr className=' d-md-none' />
+                <Link href="/auth/logIn" className={`${style.links} text-center text-white px-md-4`} style={{ background: 'rgb(0, 202, 0)' }} onClick={onNavigate}>Log In / Sign Up</Link>
+              </li >
             }
 
             {/* Dropdown  */}
