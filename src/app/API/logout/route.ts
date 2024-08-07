@@ -11,8 +11,11 @@ export const GET = async (req: NextRequest) => {
 
     response.cookies.set('token', "",
       {
-        expires: new Date(0),
-        httpOnly: true
+        maxAge : 0,
+        httpOnly: true,
+        secure : true,
+        path : '/',
+        sameSite : 'strict'
       }
     )
 

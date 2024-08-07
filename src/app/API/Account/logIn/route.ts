@@ -46,10 +46,10 @@ export const POST = async (req: NextRequest) => {
 
         Response.cookies.set('token', Token,
             {
-                expires: new Date(Date.now() + 1000 * 86400),
+                maxAge: 86400,
                 httpOnly: true,
-                sameSite: 'strict',
                 path: '/',
+                sameSite: 'strict'
             })
 
         return Response
