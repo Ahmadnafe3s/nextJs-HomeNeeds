@@ -15,7 +15,7 @@ const Banner = () => {
 
                     <div className="row py-5 justify-content-center align-items-center gap-5">
 
-                        <RevealList delay={300} interval={200} duration={500} reset={false} scale={1.1} className="col-md-6 order-2 order-md-1 mt-4 text-center text-md-start" >
+                        <RevealList delay={300} interval={200} duration={500} reset={false} scale={0.9} className="col-md-6 order-2 order-md-1 mt-4 text-center text-md-start" >
                             <h1 className={`${style.heading}  ${logo_font.className} fw-bold`}><span style={{ color: 'green' }}>H</span>ome <span
                                 style={{ color: 'green' }}>N</span>eeds</h1>
                             <p className={style.title}>Your Kitchen Companion</p>
