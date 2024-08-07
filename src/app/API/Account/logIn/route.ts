@@ -48,8 +48,7 @@ export const POST = async (req: NextRequest) => {
             {
                 expires: new Date(Date.now() + 1000 * 86400),
                 httpOnly: true,
-                secure: true,
-                sameSite: 'lax',
+                sameSite: 'strict',
                 path: '/',
             })
 
