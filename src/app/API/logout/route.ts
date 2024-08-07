@@ -13,8 +13,8 @@ export const GET = async (req: NextRequest) => {
       {
         maxAge : 0,
         httpOnly: true,
-        secure : true,
         path : '/',
+        secure: process.env.NODE_ENV === 'production',
         sameSite : 'strict'
       }
     )

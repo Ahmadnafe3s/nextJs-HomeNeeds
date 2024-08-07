@@ -49,6 +49,7 @@ export const POST = async (req: NextRequest) => {
                 maxAge: 86400,
                 httpOnly: true,
                 path: '/',
+                secure: process.env.NODE_ENV === 'production',
                 sameSite: 'strict'
             })
 
