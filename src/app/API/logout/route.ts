@@ -8,14 +8,18 @@ export const GET = async (req: NextRequest) => {
       message: 'User logged out.'
     })
 
+    // Prevent caching of this response
+    response.headers.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+    response.headers.set('Pragma', 'no-cache');
+    response.headers.set('Expires', '0');
 
     response.cookies.set('token', "",
       {
-        maxAge : 0,
+        maxAge: 0,
         httpOnly: true,
-        path : '/',
+        path: '/',
         secure: process.env.NODE_ENV === 'production',
-        sameSite : 'strict'
+        sameSite: 'strict'
       }
     )
 
