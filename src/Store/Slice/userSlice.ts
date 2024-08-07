@@ -52,7 +52,7 @@ const userSlice = createSlice({
 
         setUser: (state, action: { payload: userType["user"] }) => {
             state.user = action.payload // first time state will change 
-            Cookies.set('user', JSON.stringify(action.payload), { expires: new Date(Date.now() + 1000 * 86398) })
+            Cookies.set('user', JSON.stringify(action.payload), { expires: new Date(Date.now() + 1000 * 86398)})
         },
 
         removeUser: (state) => {

@@ -38,6 +38,7 @@ const LogInComponent = () => {
             }
 
             dispatchUser(setUser(user))
+            
             setLoading(false)
             router.push('/')
 

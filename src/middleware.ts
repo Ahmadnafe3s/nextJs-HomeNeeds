@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
 
-    const Path = req.nextUrl.pathname
+    const Path =  req.nextUrl.pathname
 
     const NotpublicPath = Path === '/recipe_form' || Path === '/profile' || Path === '/auth/changePassword';
     const authPath = Path === '/auth/logIn' || Path == '/auth/signUp'
 
-    const Token = req.cookies.get('token')?.value
+    const Token = req.cookies.get('token')?.value 
 
     if (NotpublicPath && !Token) {
         return NextResponse.redirect(new URL('/auth/logIn', req.url))
