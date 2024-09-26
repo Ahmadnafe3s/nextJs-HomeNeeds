@@ -1,36 +1,30 @@
+import { auth } from '@/auth'
+import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from "next/server";
 
-export function middleware(req: NextRequest) {
+
+export default auth(async (req : NextRequest) => {
 
     const Path = req.nextUrl.pathname
 
     const isNotpublicPath = Path === '/recipe_form' || Path === '/profile' || Path === '/auth/changePassword';
-    const authPath = Path === '/auth/logIn' || Path == '/auth/signUp'
+    const isAuthPath = Path === '/logIn' || Path == '/signUp'
 
-    const Token = req.cookies.get('token')?.value || ''
+     const Token = await getToken({ req, secret: process.env.AUTH_SECRET! });
 
     if (isNotpublicPath && !Token) {
-        return NextResponse.redirect(new URL('/auth/logIn', req.url))
+        return NextResponse.redirect(new URL('/logIn', req.url))
     }
 
-    if (Token && authPath) {
+    if (Token && isAuthPath) {
         return NextResponse.redirect(new URL('/', req.url))
     }
 
     return NextResponse.next()
-}
+
+})
+
 
 export const config = {
-    matcher: [
-        '/',
-        '/auth/logIn',
-        '/auth/signUp',
-        '/auth/changePassword',
-        '/profile',
-        '/recipe_category',
-        '/recipe_details',
-        '/recipe_form',
-        '/shopping_list',
-        '/search_recipe_list'
-    ]
+    matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
 }

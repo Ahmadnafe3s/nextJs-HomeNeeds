@@ -28,7 +28,7 @@ const ChangePassword = () => {
             }
             setLoading(true)
 
-            const response = await axios.post('/API/Account/changePassword', { username: user, password: data.password })
+            const response = await axios.post('/api/Account/changePassword', { username: user, password: data.password })
 
             toast.success(response.data.message)
             setLoading(false)

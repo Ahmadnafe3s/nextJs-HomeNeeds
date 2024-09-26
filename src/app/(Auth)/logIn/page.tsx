@@ -1,54 +1,47 @@
 "use client"
-import { setUser } from '@/Store/Slice/userSlice'
-import { useAppDispatch } from '@/Store/hooks/hooks'
-import axios from 'axios'
+
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next-nprogress-bar'
 import style from '../auth.module.css'
+import { handleCredentialsSingnIn } from '@/app/Actions/authAction'
+import { useSession } from 'next-auth/react'
 
 
-type Inputs = {
+export type loginFormInputs = {
     email_or_username: string,
     password: string | number
 }
 
 const LogInComponent = () => {
 
-    const dispatchUser = useAppDispatch()
     const [loading, setLoading] = useState<boolean>(false)
     const router = useRouter()
+    const { update } = useSession();
 
 
-    const { register, handleSubmit, formState: { errors }, } = useForm<Inputs>()
 
-    const onSubmit = async (data: Inputs) => {
+    const { register, handleSubmit, formState: { errors }, } = useForm<loginFormInputs>()
 
-        try {
-            setLoading(true)
-            const Response = await axios.post('/API/Account/logIn', data)
 
-            toast.success(Response.data.message)
+    const onSubmit = async (formData: loginFormInputs) => {
 
-            const user = {
-                userName: Response.data.userName,
-                email: Response.data.email,
-            }
+        setLoading(true)
 
-            dispatchUser(setUser(user))
-            
-            setLoading(false)
+        const error = await handleCredentialsSingnIn(formData)
+
+        if (!error) {
+            toast.success('Login Successfully')
+            await update()
             router.push('/')
-
-        } catch (error: any) {
-
-            setLoading(false)
-            toast.error(error.response.data.message)
-
+        } else {
+            toast.error(error as any)
         }
+        setLoading(false)
     }
+
 
 
     return (
@@ -67,7 +60,7 @@ const LogInComponent = () => {
 
 
 
-                        {/* Email Field */}
+                        {/* Email_or_username Field */}
 
                         <div className="mb-3">
                             <label htmlFor="email">Email or Username</label>
@@ -106,7 +99,7 @@ const LogInComponent = () => {
                         {/* forget password button */}
 
                         <div className="text-end mt-2">
-                            <Link className="link-primary" href="/auth/forgetPassword">forget password</Link>
+                            <Link className="link-primary" href="/forgetPassword">forget password</Link>
                         </div>
 
 
@@ -126,7 +119,7 @@ const LogInComponent = () => {
                         {/* switch log mode  */}
                         <div className="mt-3 text-center">
 
-                            <Link href="/auth/signUp" className='text-decoration-none text-secondary'>Don&apos;t have account visit <span className='text-primary fw-bolder ms-1'> Sign Up</span></Link>
+                            <Link href="/signUp" className='text-decoration-none text-secondary'>Don&apos;t have account visit <span className='text-primary fw-bolder ms-1'> Sign Up</span></Link>
 
                         </div>
 

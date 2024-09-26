@@ -1,11 +1,11 @@
 import React from 'react'
 import style from './model.module.css'
 import Link from 'next/link'
-import { useAppSelector } from '@/Store/hooks/hooks'
+import { useSession } from 'next-auth/react'
 
 const Model = ({ Image, ID, Name, username, event, onDelete }: { Image: { url: string, public_id: string }, ID: string, Name: string, username: string, event: any, onDelete: any }) => {
 
-  const user = useAppSelector(state => state.user.user)
+  const { data: session } = useSession()
 
   return (
     <>
@@ -27,9 +27,9 @@ const Model = ({ Image, ID, Name, username, event, onDelete }: { Image: { url: s
 
             <Link className='link-success' href={`recipe_details/${ID}`}><i className='bx bx-info-circle' ></i></Link>
 
-            {user && (user.userName === username) && <Link className='link-primary' href={`/recipe_form?id=${ID}`}><i className='bx bx-edit-alt' ></i></Link>}
+            {session?.user?.name === username && <Link className='link-primary' href={`/recipe_form?id=${ID}`}><i className='bx bx-edit-alt' ></i></Link>}
 
-            {user && (user.userName === username) && <a className='link-danger' onClick={() => onDelete(ID , Image.public_id)}><i className='bx bx-trash'></i></a>}
+            {session?.user?.name === username && <a className='link-danger' onClick={() => onDelete(ID, Image.public_id)}><i className='bx bx-trash'></i></a>}
 
           </div>
           <hr />

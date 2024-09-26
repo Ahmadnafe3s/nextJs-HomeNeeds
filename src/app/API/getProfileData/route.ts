@@ -3,7 +3,7 @@ import { recipes } from "@/model/recipeSchema";
 import { NextRequest, NextResponse } from "next/server";
 
 
-connect();
+await connect();
 
 
 export const GET = async (req: NextRequest) => {

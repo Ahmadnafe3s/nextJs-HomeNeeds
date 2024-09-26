@@ -3,7 +3,7 @@ import users from "@/model/userSchema";
 import { recipes } from "@/model/recipeSchema";
 import { NextRequest, NextResponse } from "next/server";
 
-connect();
+await connect();
 
 
 export const POST = async (req: NextRequest) => {
@@ -12,7 +12,7 @@ export const POST = async (req: NextRequest) => {
         const { username } = await req.json()
 
         await users.deleteOne({ username: username })
-        await recipes.deleteMany({ FID: username })
+        await recipes.deleteMany({ FID: username }) // deleting all recipes with this FID
 
         const response = NextResponse.json({
             message: 'Account Deactivated.'

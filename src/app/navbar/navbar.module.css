@@ -20,6 +20,7 @@
     font-size: 25px;
     font-weight: 600 !important;
     text-decoration: none;
+    z-index: 100;
 }
 
 .nav_links {
@@ -45,6 +46,30 @@
 }
 
 
+.userLogo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    width: 40px;
+    border-radius: 23px;
+    outline: 4px solid #d7d7d7;
+    background-color: rgb(0 169 0);
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+
+.userLogo p {
+    margin-bottom: 2px;
+    font-size: 29px;
+    color: white;
+}
+
+
+.userLogo:active{
+    scale: 0.92;
+}
 
 
 .profile_logo {
@@ -52,8 +77,8 @@
     height: 80px;
     width: 80px;
     border-radius: 100px;
-    background-color: rgb(0, 202, 0);
-    border: 5px solid rgb(235, 235, 235);
+    background-color: rgb(0 169 0);
+    outline: 4px solid #e6e6e6;
 }
 
 
@@ -170,19 +195,20 @@
 
     .nav_links {
         display: block;
+        margin-top: 60px;
         padding: 20px;
-        /* background-color: rgb(202, 217, 251); */
     }
 
     .nav_links li {
-        /* background: lightcoral; */
-        margin: 25px 0;
+        margin: 15px 0;
+    }
+
+    .nav_links li hr{
+        border: 1px solid rgba(0, 199, 27, 0.441);
     }
 
     .nav_links a {
         display: block;
-        /* background-color: blueviolet; */
-        text-align: start;
         width: 160px !important;
         padding: 10px auto;
     }

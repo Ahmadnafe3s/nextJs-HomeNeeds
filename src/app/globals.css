@@ -31,7 +31,7 @@ a {
   cursor: pointer;
 }
 
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 10px;
 }
 
@@ -42,7 +42,8 @@ a {
 
 ::-webkit-scrollbar-track {
   background-color: rgb(229, 255, 229);
-} */
+}
+
 
 
 /* theme for buttons */

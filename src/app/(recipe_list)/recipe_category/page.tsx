@@ -19,7 +19,7 @@ const CategoryComponent = () => {
         try {
 
             setLoading(true)
-            const response = await axios.get<{ Recipe_List: recipesListResponseType[] }>(`/API/getCategories?category=${params}`)
+            const response = await axios.get<{ Recipe_List: recipesListResponseType[] }>(`/api/getCategories?category=${params}`)
             setResData(response.data)
             setLoading(false)
 

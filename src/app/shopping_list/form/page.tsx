@@ -3,7 +3,7 @@
 import React, { Suspense, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { shopping_list_type } from '../listType'
-import { heading_font } from '../../../../public/fonts/fonts'
+import { heading_font } from '@/fonts/fonts'
 import { useSearchParams } from 'next/navigation'
 import toast from 'react-hot-toast'
 

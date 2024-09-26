@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs"
 import speakeasy from 'speakeasy'
 
-connect();
+await connect();
 
 export async function POST(req: NextRequest) {
 
@@ -12,8 +12,6 @@ export async function POST(req: NextRequest) {
     try {
 
         const { username, email, password, OTP, secret } = await req.json()
-
-
 
         const salt = await bcryptjs.genSalt(10)
 

@@ -3,7 +3,7 @@ import cloudinary from "@/helpers/cloudinary/clodinary_config";
 import { recipes } from "@/model/recipeSchema";
 import { NextRequest, NextResponse } from "next/server";
 
-connect();
+await connect();
 
 export const DELETE = async (req: NextRequest) => {
 

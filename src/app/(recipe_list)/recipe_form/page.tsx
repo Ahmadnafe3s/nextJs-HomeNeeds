@@ -2,7 +2,7 @@
 
 import { Suspense, useEffect, useRef, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
-import { heading_font } from '../../../../public/fonts/fonts'
+import { heading_font } from '@/fonts/fonts'
 import { recipesListResponseType, recipeType } from '../Types/recipeType'
 import axios from 'axios'
 import upload_image from '@/helpers/cloudinary/uplaod-images'
@@ -33,7 +33,7 @@ const RecipeForm = () => {
     const bindDataToform = async () => {
         try {
             setLoading(true)
-            const ResData = await axios.get<{ recipe_Details: recipesListResponseType }>(`API/getRecipeDetails/${ID.current}`)
+            const ResData = await axios.get<{ recipe_Details: recipesListResponseType }>(`api/getRecipeDetails/${ID.current}`)
             const DETAILS = ResData.data.recipe_Details
             setValue('Name', DETAILS.Name)
             setValue('Description', DETAILS.Description)
@@ -100,7 +100,7 @@ const RecipeForm = () => {
             }
 
 
-            const Response = await axios.post('/API/insert-recipes', formData)
+            const Response = await axios.post('/api/insert-recipes', formData)
 
             toast.success(Response.data.message)
 
@@ -130,7 +130,7 @@ const RecipeForm = () => {
 
             }
 
-            const Response = await axios.put(`/API/updateRecipe/${ID.current}`, formData)
+            const Response = await axios.put(`/api/updateRecipe/${ID.current}`, formData)
 
             toast.success(Response.data.message)
             setLoading(false)
@@ -172,12 +172,9 @@ const RecipeForm = () => {
     };
 
 
-    const demo = async () => {
-        const res = await axios.delete(`/API/deleteImage?p_id=${ImageData.current.public_id}`)
-        console.log(res.data);
-    }
 
     return (
+
         <>
 
             <form className="container-fluid" onSubmit={handleSubmit(onSubmit)}>

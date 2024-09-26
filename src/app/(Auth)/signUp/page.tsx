@@ -32,15 +32,16 @@ const SignupComponent = () => {
     const onSubmit = async (formData: Inputs) => {
         try {
             setLoading(true)
-            const Response = await axios.post('/API/Account/userEmailVerification', { email: formData.email, username: formData.username })
+            const Response = await axios.post('/api/Account/userEmailVerification', { email: formData.email, username: formData.username })
             secret.current = Response.data.secret
             toast.success(Response.data.message)
-            setLoading(false)
             setStep('OTP')
 
         } catch (error: any) {
-            setLoading(false)
             toast.error(error.response.data.message)
+
+        } finally {
+            setLoading(false)
 
         }
     }
@@ -52,15 +53,17 @@ const SignupComponent = () => {
         try {
             setLoading(true)
 
-            const Response = await axios.post('../API/Account/signUp', { ...formData, secret: secret.current })
+            const Response = await axios.post('/api/Account/signUp', { ...formData, secret: secret.current })
 
             toast.success(Response.data.message)
-            setLoading(false)
-            router.push('/auth/logIn')
+            router.push('/logIn')
 
         } catch (error: any) {
 
             toast.error(error.response.data.message)
+
+        } finally {
+
             setLoading(false)
 
         }
@@ -101,8 +104,8 @@ const SignupComponent = () => {
                                         ...register('username',
                                             {
                                                 required: { value: true, message: 'Required Field!' }
-                                                , maxLength: { value: 12, message: 'Max length 12' },
-                                                pattern: { value: /^[a-zA-Z0-9_]*$/, message: 'Username can only contain letters, numbers, and underscores' },
+                                                , maxLength: { value: 15, message: 'Max length 12' },
+                                                pattern: { value: /^[a-z0-9_]*$/, message: 'Username can only contain lowercase letters, numbers, and underscores' },
                                             })
                                         } />
 
@@ -147,6 +150,7 @@ const SignupComponent = () => {
 
                                     <p className="text-secondary">{errors.password?.message}</p>
                                 </div>
+
 
 
                                 {/* submit button  */}
@@ -203,7 +207,7 @@ const SignupComponent = () => {
                         {/* switch log mode  */}
                         <div className="mt-3 text-center">
 
-                            <Link className="text-decoration-none text-dark" href="/auth/logIn">Already have an account visit <span className=' fw-bolder text-primary ms-1'>Log In</span></Link>
+                            <Link className="text-decoration-none text-dark" href="/logIn">Already have an account visit <span className=' fw-bolder text-primary ms-1'>Log In</span></Link>
 
                         </div>
 

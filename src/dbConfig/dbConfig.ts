@@ -1,12 +1,25 @@
 import mongoose from "mongoose";
 
-const connect = () => {
-    
-    mongoose.connect(process.env.DATABASE!).then(() => {
-        console.log("Database Connected.")
-    }).catch(err => {
-        console.log("Error connecting to database: ", err);
-    })
+const connect = async () => {
+
+    try {
+
+        if (mongoose.connection.readyState === 1) {
+            console.log("Database already connected");
+            return
+        }
+
+        await mongoose.connect(process.env.DATABASE!)
+
+        console.log("Connected to database");
+
+
+    } catch (error) {
+
+        console.log("Connection failed to database!");
+
+    }
+
 }
 
 

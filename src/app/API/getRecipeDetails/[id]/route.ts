@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { recipes } from '../../../../model/recipeSchema'
 import connect from '@/dbConfig/dbConfig'
 
-connect(); // was forget to call
+await connect(); 
 
 export const GET = async (req: NextRequest, { params }: any) => {
 

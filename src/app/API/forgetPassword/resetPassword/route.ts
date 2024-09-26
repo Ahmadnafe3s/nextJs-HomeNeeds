@@ -4,7 +4,7 @@ import bcrypt from 'bcryptjs'
 
 import { NextRequest, NextResponse } from "next/server";
 
-connect();
+await connect();
 
 
 export const PUT = async (req: NextRequest) => {
@@ -20,7 +20,7 @@ export const PUT = async (req: NextRequest) => {
         await users.updateOne({ $or: [{ email: email_or_username }, { username: email_or_username }] }, { $set: { password: hashedPassword } })
 
         return NextResponse.json({
-            message: 'Password been reset.'
+            message: 'Password have been reset.'
         })
 
 

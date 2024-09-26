@@ -4,7 +4,7 @@ import users from "@/model/userSchema";
 import speakeasy from 'speakeasy'
 import mailer from "@/helpers/mailer/nodeMailer";
 
-connect();
+await connect();
 
 export const POST = async (req: NextRequest) => {
 

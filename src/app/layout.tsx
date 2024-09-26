@@ -1,10 +1,9 @@
 import "./globals.css";
 import 'bootstrap/dist/css/bootstrap.css';
 import Navbar from "./navbar/navbar";
-import { screen_font } from "../../public/fonts/fonts";
+import { screen_font } from "@/fonts/fonts";
 import { Toaster } from "react-hot-toast";
-import StoreProvider from "./storeProvider";
-
+import SessionProvider from "./sessionProvider";
 
 export const metadata = {
   title: 'HomeNeeds',
@@ -25,10 +24,10 @@ export default function RootLayout({
 
         <Toaster />
 
-        <StoreProvider>
+        <SessionProvider>
           <Navbar />
           <main> {children} </main> {/* Wrapping All components */}
-        </StoreProvider>
+        </SessionProvider>
 
         <script
           src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

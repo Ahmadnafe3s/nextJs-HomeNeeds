@@ -7,7 +7,7 @@ import style from '../../recipe_list.module.css'
 import { recipesListResponseType } from '../../Types/recipeType'
 import LoadinSpinner_2 from '@/app/components/loadingSpinner-2/loadingSpinner-2'
 import Banner from '../../../components/recipe_components/banner'
-import { banner_heading } from '../../../../../public/fonts/fonts'
+import { banner_heading } from '@/fonts/fonts'
 import toast from 'react-hot-toast'
 import Link from 'next/link'
 import Footer from '@/app/footer/footer'
@@ -33,7 +33,7 @@ const RecipeDetails = ({ params }: any) => {
     const fetchRecipeDetails = async () => {
         try {
 
-            const response = await axios.get<{ recipe_Details: recipesListResponseType }>(`/API/getRecipeDetails/${params.id}`)
+            const response = await axios.get<{ recipe_Details: recipesListResponseType }>(`/api/getRecipeDetails/${params.id}`)
             setDetails(response.data.recipe_Details)
 
         } catch (error: any) {

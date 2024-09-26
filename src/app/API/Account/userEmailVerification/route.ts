@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import mailer from "@/helpers/mailer/nodeMailer";
 import speakeasy from 'speakeasy'
 
-connect()
+await connect()
 
 export const POST = async (req: NextRequest) => {
 

@@ -47,7 +47,7 @@ const ForgetPasswordComponent = () => {
         try {
 
             setLoading(true)
-            const response = await axios.post('/API/forgetPassword/verifyEmail', { email_or_username: data.email_or_username })
+            const response = await axios.post('/api/forgetPassword/verifyEmail', { email_or_username: data.email_or_username })
             SECRET.current = response.data.secret
             toast.success(response.data.message);
             setStep('otp');
@@ -70,7 +70,7 @@ const ForgetPasswordComponent = () => {
         try {
 
             setLoading(true)
-            const response = await axios.post('/API/forgetPassword/verifyOTP', { secret: SECRET.current, OTP: data.otp })
+            const response = await axios.post('/api/forgetPassword/verifyOTP', { secret: SECRET.current, OTP: data.otp })
 
             setStep('password')
 
@@ -98,7 +98,7 @@ const ForgetPasswordComponent = () => {
         try {
 
             setLoading(true)
-            const response = await axios.put('/API/forgetPassword/resetPassword', { email_or_username: data.email_or_username, password: data.password })
+            const response = await axios.put('/api/forgetPassword/resetPassword', { email_or_username: data.email_or_username, password: data.password })
             toast.success(response.data.message)
             reset();
             setStep('email');

@@ -3,7 +3,7 @@ import { Suspense, useEffect, useState } from 'react'
 import RecipeCard from '../../components/recipe_components/card'
 import axios from 'axios'
 import { useSearchParams } from 'next/navigation'
-import { recipesListResponseType, recipeType } from '../Types/recipeType'
+import { recipesListResponseType} from '../Types/recipeType'
 import LoadinSpinner_2 from '@/app/components/loadingSpinner-2/loadingSpinner-2'
 import toast from 'react-hot-toast'
 import SearchBar from '@/app/components/recipe_components/searchBar'
@@ -19,7 +19,7 @@ const SearchComponent = () => {
     try {
 
       setLoading(true)
-      const response = await axios.get<{ Recipe_List: recipesListResponseType[] }>(`/API/getSearchResult?search=${params}`)
+      const response = await axios.get<{ Recipe_List: recipesListResponseType[] }>(`/api/getSearchResult?search=${params}`)
       setResData(response.data)
       setLoading(false)
 

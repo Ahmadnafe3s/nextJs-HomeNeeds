@@ -8,9 +8,7 @@ import LoadinSpinner_2 from '../components/loadingSpinner-2/loadingSpinner-2'
 import Link from 'next/link'
 import Model from './modelDialouge/model'
 import AlertDialogue from '../components/alert/alert'
-import { useAppDispatch, useAppSelector } from '@/Store/hooks/hooks'
-import { removeUser } from '@/Store/Slice/userSlice'
-import { useRouter } from 'next-nprogress-bar'
+import { signOut, useSession } from 'next-auth/react'
 
 
 type profileDataRes = {
@@ -27,16 +25,13 @@ type profileDataRes = {
 const ProfileComponent = () => {
 
     const user = useSearchParams().get('user')
-    const loggedInUser = useAppSelector(state => state.user).user
     const [profile, setProfile] = useState<profileDataRes>()
     const [loading, setLoading] = useState<boolean>(true)
     const [model, setModel] = useState<any>(null)
     const [delteMessage, setDeletmessage] = useState<null | string>(null)
     const deleteType = useRef<'recipe' | 'account'>()
     const deleteQuery = useRef({ id: '', public_id: '' })
-    const dispatch = useAppDispatch()
-    const router = useRouter()
-
+    const { data: session } = useSession()
 
 
 
@@ -44,7 +39,7 @@ const ProfileComponent = () => {
     const fetchProfiledata = async () => {
         try {
             setLoading(true)
-            const response = await axios.get<profileDataRes>(`/API/getProfileData?user=${user}`)
+            const response = await axios.get<profileDataRes>(`/api/getProfileData?user=${user}`)
             setProfile(response.data)
             setLoading(false)
         } catch (error: any) {
@@ -84,19 +79,19 @@ const ProfileComponent = () => {
 
 
     const onOk = async () => {
+
         try {
 
             if (deleteType.current === 'recipe') {
-                const res = await axios.delete(`/API/deleteRecipe?id=${deleteQuery.current.id}&p_id=${deleteQuery.current.public_id}`)
+                const res = await axios.delete(`/api/deleteRecipe?id=${deleteQuery.current.id}&p_id=${deleteQuery.current.public_id}`)
                 fetchProfiledata();
                 toast.success(res.data.message)
             }
 
             if (deleteType.current === 'account') {
-                const res = await axios.post('/API/Account/deactivateAccount', { username: user });
-                dispatch(removeUser())
+                const res = await axios.post('/api/Account/deactivateAccount', { username: user });
                 toast.success(res.data.message)
-                router.push('/')
+                signOut({ redirectTo: '/' })
             }
 
             setDeletmessage(null)
@@ -116,7 +111,7 @@ const ProfileComponent = () => {
 
                         <div >
 
-                            <div className={`style.profile_logo ${style.profile_logo}  mx-auto`}>
+                            <div className={`${style.profile_logo}  mx-auto`}>
                                 <p>{user?.charAt(0)}</p>
                             </div>
 
@@ -138,7 +133,7 @@ const ProfileComponent = () => {
                                     return (
                                         <div key={index}>
                                             <img src={elem.RecipeImage.url} alt='' onClick={() => { onPost(index) }} />
-                                            <p className='fw-bold'>{elem.Name}</p>
+                                            <p className='fw-bold mt-2'>{elem.Name}</p>
                                         </div>
                                     )
                                 })}
@@ -181,13 +176,13 @@ const ProfileComponent = () => {
 
                     {/* Responsoble for showing links */}
 
-                    {user === loggedInUser?.userName &&
+                    {user === session?.user?.name &&
                         <div className={style.links}>
                             <hr />
-                            <div className="p-3">
-                                <Link href={`/auth/changePassword?user=${user}`} className=' link-danger fw-bold text-decoration-none'>Change Password</Link>
-                                <span className='mx-2'>|</span>
-                                <a className=' link-danger fw-bold text-decoration-none' onClick={onDeactivate}>Deactivate Account</a>
+                            <div className=" mb-3">
+                                <Link href={`/changePassword?user=${user}`} style={{ background: "rgb(0 169 0)" }} className='text-white py-2 px-2 px-md-4 rounded-1'>Change Password</Link>
+                                <span className=' mx-2'>|</span>
+                                <a className=' border border-1 border-black text-dark rounded-1 py-2 px-2 px-md-4' onClick={onDeactivate}>Deactivate Account</a>
                             </div>
                         </div>
                     }
@@ -217,8 +212,8 @@ const ProfileComponent = () => {
 
 export default function Page() {
     return (
-      <Suspense fallback={<div>Loading...</div>}>
-        <ProfileComponent />
-      </Suspense>
+        <Suspense fallback={<div>Loading...</div>}>
+            <ProfileComponent />
+        </Suspense>
     );
-  }
+}

@@ -3,7 +3,7 @@ import users from "@/model/userSchema";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from 'bcryptjs'
 
-connect();
+await connect();
 
 
 export const POST = async (req: NextRequest) => {
@@ -18,7 +18,7 @@ export const POST = async (req: NextRequest) => {
         await users.updateOne({ username: data.username }, { $set: { password: hashedPassword } })
 
         return NextResponse.json({
-            message: "Password been Changed",
+            message: "Password have been Changed",
         })
 
     } catch (error: any) {

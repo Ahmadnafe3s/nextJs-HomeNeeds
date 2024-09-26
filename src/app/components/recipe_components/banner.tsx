@@ -1,7 +1,7 @@
 "use client"
 import { RevealList, RevealWrapper } from 'next-reveal'
 import style from './recipe_components.module.css'
-import { logo_font } from '../../../../public/fonts/fonts'
+import { logo_font } from '@/fonts/fonts'
 import bannerImg from '../../../../public/Images/banner.svg'
 import Image from 'next/image'
 import Link from 'next/link'

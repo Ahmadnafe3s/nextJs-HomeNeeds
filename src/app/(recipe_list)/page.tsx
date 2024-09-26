@@ -23,12 +23,12 @@ const RecipesComponent = () => {
 
   const fetchRecipes = async () => {
     try {
-      const response = await axios.get<{ Recipe_List: recipesListResponseType[], total_items: number }>(`/API/getRecipeList?page=${searchPage}&limit=${Limit}`)
+      const response = await axios.get<{ Recipe_List: recipesListResponseType[], total_items: number }>(`/api/getRecipeList?page=${searchPage}&limit=${Limit}`)
       setResData(response.data)
       setTotal_page(Math.round(response.data.total_items / Limit) || 1) // suppose 6 / 12 = 0.5 round = 1  if 0 then by default 1
 
     } catch (error: any) {
-      toast.error(error.response.data.message)
+      toast.error(error.response.data?.message)
     }
 
   }
