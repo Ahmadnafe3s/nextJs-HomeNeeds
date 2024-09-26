@@ -1,36 +1,30 @@
-import { auth } from '@/auth'
 import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from "next/server";
 
+// Auth middleware for protected routes
+export default async function middleware(req: NextRequest) {
+  const path = req.nextUrl.pathname;
 
-export default auth(async (req: NextRequest) => {
+  // Define paths that require authentication
+  const isNotPublicPath = path === '/recipe_form' || path === '/profile' || path === '/auth/changePassword';
+  const isAuthPath = path === '/logIn' || path === '/signUp';
 
-    const Path = req.nextUrl.pathname
+  // Get JWT token
+  const token = await getToken({ req, secret: process.env.AUTH_SECRET! });
 
-    const isNotpublicPath = Path === '/recipe_form' || Path === '/profile' || Path === '/auth/changePassword';
-    const isAuthPath = Path === '/logIn' || Path == '/signUp'
+  // Redirect to login if user tries to access protected routes without a token
+  if (isNotPublicPath && !token) {
+    return NextResponse.redirect(new URL('/logIn', req.url));
+  }
 
-    const Token = await getToken({ req, secret: process.env.AUTH_SECRET! });
+  // Redirect authenticated users away from login or signup pages
+  if (token && isAuthPath) {
+    return NextResponse.redirect(new URL('/', req.url));
+  }
 
-    if (isNotpublicPath && !Token) {
-        return NextResponse.redirect(new URL('/logIn', req.url))
-    }
-
-    if (Token && isAuthPath) {
-        return NextResponse.redirect(new URL('/', req.url))
-    }
-
-    return NextResponse.next()
-
-})
-
+  return NextResponse.next();
+}
 
 export const config = {
-    matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
-    unstable_allowDynamic: [
-        // allows a single file
-        "/src/db/lib/dbConnect.js",
-        // use a glob to allow anything in the function-bind 3rd party module
-        "/node_modules/mongoose/dist/**",
-    ],
-}
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"], // Protects all routes except specific ones
+};
