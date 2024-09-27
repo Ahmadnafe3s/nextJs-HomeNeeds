@@ -3,20 +3,26 @@ import { getToken } from 'next-auth/jwt';
 import { NextRequest, NextResponse } from "next/server";
 
 
-export default auth(async (req : NextRequest) => {
+export default auth(async (req: NextRequest) => {
 
     const Path = req.nextUrl.pathname
 
     const isNotpublicPath = Path === '/recipe_form' || Path === '/profile' || Path === '/auth/changePassword';
     const isAuthPath = Path === '/logIn' || Path == '/signUp'
 
-    console.log(process.env.AUTH_SECRET!);
+
+    const Token = await getToken(
+        {
+            req,
+            secret: process.env.AUTH_SECRET!,
+            secureCookie: process.env.NODE_ENV === 'production',
+            salt: process.env.NODE_ENV === 'production' ? "__Secure-authjs.session-token" : "authjs.session-token"
+        });
+
+
+    console.log('Token:', Token);
+
     
-
-     const Token = await getToken({ req, secret: process.env.AUTH_SECRET! });
-
-     console.log('Token:', Token);
-
     if (isNotpublicPath && !Token) {
         return NextResponse.redirect(new URL('/logIn', req.url))
     }
