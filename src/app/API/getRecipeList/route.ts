@@ -2,16 +2,17 @@ import { NextRequest, NextResponse } from 'next/server'
 import { recipes } from '../../../model/recipeSchema'
 import connect from '@/dbConfig/dbConfig'
 
-await connect();
 
 export const GET = async (req: NextRequest) => {
 
     try {
+        
+        await connect();
 
         const { searchParams } = new URL(req.url);
         const page = Number(searchParams.get('page')) || 1    //if nothig come then default 1
         const Limit = Number(searchParams.get('limit')) || 12
-        
+
         const Skip = (page - 1) * Limit   // (1 - 1) + 12 = 0 , (2 - 1) * 12 = 12 
 
         const pipeline = [{ $count: "total_items" }];
