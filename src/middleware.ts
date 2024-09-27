@@ -19,9 +19,6 @@ export default auth(async (req: NextRequest) => {
             salt: process.env.NODE_ENV === 'production' ? "__Secure-authjs.session-token" : "authjs.session-token"
         });
 
-
-    console.log('Token:', Token);
-
     
     if (isNotpublicPath && !Token) {
         return NextResponse.redirect(new URL('/logIn', req.url))

@@ -11,7 +11,13 @@ export const POST = async (req: NextRequest) => {
 
         const recipeData = await req.json()
 
-        const Token = await getToken({ req, secret: process.env.AUTH_SECRET! }) // id is not correct cause i have not modified yet
+        const Token = await getToken(
+            {
+                req,
+                secret: process.env.AUTH_SECRET!,
+                secureCookie: process.env.NODE_ENV === 'production',
+                salt: process.env.NODE_ENV === 'production' ? "__Secure-authjs.session-token" : "authjs.session-token"
+            });
 
         const Recipes = new recipes({ FID: Token?.name, ...recipeData })
 
