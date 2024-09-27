@@ -10,6 +10,9 @@ export default auth(async (req : NextRequest) => {
     const isNotpublicPath = Path === '/recipe_form' || Path === '/profile' || Path === '/auth/changePassword';
     const isAuthPath = Path === '/logIn' || Path == '/signUp'
 
+    console.log(process.env.AUTH_SECRET!);
+    
+
      const Token = await getToken({ req, secret: process.env.AUTH_SECRET! });
 
      console.log('Token:', Token);
