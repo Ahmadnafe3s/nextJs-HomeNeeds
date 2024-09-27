@@ -1,9 +1,13 @@
 import NextAuth, { CredentialsSignin } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from 'bcryptjs'
-import connect from "./dbConfig/dbConfig";
-import users from "./model/userSchema";
+import axios from "axios";
 
+type useType = {
+    id: string,
+    name: string,
+    email: string
+}
 
 export const { signIn, signOut, handlers, auth } = NextAuth({
 
@@ -21,27 +25,27 @@ export const { signIn, signOut, handlers, auth } = NextAuth({
 
                 async authorize({ email_or_username, password }) {
 
-                    await connect()
+                    try {
 
-                    const User = await users.findOne({ $or: [{ email: email_or_username }, { username: email_or_username }] })
+                        // i am getting user data by validating in api route to get rid of edge anvironment error in mongoose package
 
-                    if (!User) {
-                        throw new CredentialsSignin({ cause: 'User not found!' })
+                        const response = await axios.post(process.env.DOMAIN + '/api/Account/getUser', { email_or_username, password }) // this ('/api/Account/getUser') only works on clent side 
+
+                        const { id, name, email } = response.data
+
+                        return { id, name: name, email: email }
+
+                    } catch (err: any) {
+
+                        throw new CredentialsSignin({ cause: err.response.data.message })
                     }
 
-                    const isPasswordCorrect = await bcrypt.compare(password as string, User.password);
-
-                    if (!isPasswordCorrect) {
-                        throw new CredentialsSignin({ cause: 'user or password is incorrect!' })
-                    }
-                    
-                    return { name: User.username, email: User.email}
                 }
             }
         )
     ],
 
-    
+
     session: {
         strategy: 'jwt',
         maxAge: 60 * 60 * 24
