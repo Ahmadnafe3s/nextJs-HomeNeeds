@@ -12,6 +12,8 @@ export default auth(async (req : NextRequest) => {
 
      const Token = await getToken({ req, secret: process.env.AUTH_SECRET! });
 
+     console.log('Token:', Token);
+
     if (isNotpublicPath && !Token) {
         return NextResponse.redirect(new URL('/logIn', req.url))
     }

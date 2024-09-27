@@ -45,6 +45,7 @@ export const { signIn, signOut, handlers, auth } = NextAuth({
         )
     ],
 
+    trustHost : process.env.NODE_ENV === 'production',
 
     session: {
         strategy: 'jwt',
