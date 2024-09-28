@@ -1,9 +1,9 @@
 .profile_logo {
-    width: 130px;
-    height: 130px;
+    width: 120px;
+    height: 120px;
     background-color: rgb(0, 169, 0);
     border-radius: 100px;
-    border: 6px solid #dbdbdb;
+    outline: 6px solid #e2e0e0ba;
 }
 
 
@@ -20,19 +20,21 @@
 .post_container {
     display: flex;
     flex-wrap: wrap;
-    column-gap: 20px;
+    column-gap: 10px;
     row-gap: 35px;
     justify-content: center;
+    min-height: 200px;
 }
 
 
 .post_container div {
-    height: 130px;
-    width: 130px;
-    outline: 3px solid #96969644;
+    height: 90px;
+    width: 90px;
+    outline: 3px solid #e2e0e0ba;
     border-radius: 5px;
-
 }
+
+
 
 .post_container img {
     object-fit: cover;
@@ -48,7 +50,12 @@
 }
 
 
-.links{
+.post_container p{
+    font-size: 11px;
+}
+
+
+.links {
     text-align: center;
 }
 
@@ -61,8 +68,8 @@
 }
 
 
-.links a:active{
-  transform: scale(0.90);
+.links a:active {
+    transform: scale(0.90);
 }
 
 
@@ -77,8 +84,12 @@
     }
 
     .post_container div {
-        height: 210px;
-        width: 210px;
+        height: 180px;
+        width: 180px;
+    }
+
+    .post_container p{
+        font-size: 15px;
     }
 
     .profile_logo {

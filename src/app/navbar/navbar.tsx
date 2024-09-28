@@ -62,7 +62,7 @@ const Navbar = () => {
     <>
       <header className={`mb-2 ${style.header}`}>
 
-        <Link href={'/'} className={`${style.navbar_brand}  ${logo_font.className} text-black fs-2`} ><span className={style.highlight_logo}>H</span>ome <span className={style.highlight_logo}>N</span>eeds</Link>
+        <Link href={'/'} className={`${style.navbar_brand}  ${logo_font.className} text-black`} ><span className={style.highlight_logo}>H</span>ome <span className={style.highlight_logo}>N</span>eeds</Link>
 
 
         <section className=' d-flex gap-4 gap-md-2 align-items-center'>

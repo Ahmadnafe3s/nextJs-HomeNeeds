@@ -5,7 +5,7 @@
 
 .header {
     display: flex;
-    height: 70px;
+    height: 60px;
     align-items: center;
     justify-content: space-between;
     background-color: #ffffff !important;
@@ -50,10 +50,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 40px;
-    width: 40px;
+    height: 35px;
+    width: 35px;
     border-radius: 23px;
-    outline: 4px solid #d7d7d7;
+    outline: 2px solid #e2e0e0ba;
     background-color: rgb(0 169 0);
     transition: 0.2s;
     cursor: pointer;
@@ -72,24 +72,6 @@
 }
 
 
-.profile_logo {
-    position: relative;
-    height: 80px;
-    width: 80px;
-    border-radius: 100px;
-    background-color: rgb(0 169 0);
-    outline: 4px solid #e6e6e6;
-}
-
-
-.profile_logo p {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 35px;
-    color: white;
-}
 
 
 .navActive {
@@ -119,8 +101,8 @@
     position: absolute;
     left: 0;
     right: 0;
-    height: 4px;
-    border-radius: calc(4px / 2);
+    height: 3px;
+    border-radius: calc(3px / 2);
     background: rgb(76, 155, 72);
     color: inherit;
     opacity: 1;
@@ -204,7 +186,7 @@
     }
 
     .nav_links li hr{
-        border: 1px solid rgba(0, 199, 27, 0.441);
+        border: 0.5px solid #e2e0e0ba;
     }
 
     .nav_links a {
