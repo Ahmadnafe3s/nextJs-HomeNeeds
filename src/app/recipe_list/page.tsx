@@ -3,7 +3,6 @@ import { Suspense, useEffect, useState } from 'react'
 import Link from 'next/link'
 import Banner from '../components/recipe_components/banner'
 import axios from 'axios'
-import toast from 'react-hot-toast'
 import LoadinSpinner_2 from '../components/loadingSpinner-2/loadingSpinner-2'
 import { recipesListResponseType } from './Types/recipeType'
 import { useSearchParams } from 'next/navigation'
@@ -11,6 +10,7 @@ import SearchBar from '../components/recipe_components/searchBar'
 import RecipeCard from '../components/recipe_components/card'
 import CategoryButton from '../components/recipe_components/category_btn'
 import Footer from '../footer/footer'
+import toast from 'react-hot-toast'
 
 
 const RecipesComponent = () => {
